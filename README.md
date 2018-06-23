@@ -1,4 +1,4 @@
-# [UIKIT 3](https://getuikit.com/) Blocks for [LUYA CMS MODULE](https://luya.io/)
+# [Uikit 3](https://getuikit.com/) css framework components for LUYA - https://luya.io/
 
 UIKIT 3 Blocks:
 
