@@ -121,9 +121,8 @@ final class TextBlock extends BaseUikitBlock
      */
     public function extraVars()
     {
-        return [
-            'text' => $this->getText(),
-        ];
+        $this->extraValues['text'] = $this->getText();
+        return parent::extraVars();
     }
     
     /**

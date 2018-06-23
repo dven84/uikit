@@ -1,6 +1,154 @@
 <?php
 
+/**
+ * Template :
+ * 'content' => [
+ *      'id' => '',
+ *      'var' => 'content',
+ *      'label' => 'block.label.content',
+ *      'type' => 'zaa-wysiwyg',
+ *      'placeholder' => '',
+ *      'options' => [],
+ *      'initvalue' => ''
+ * ]
+ */
 return [
+    'title' => [
+        'label' => 'block.label.title',
+        'type' => 'zaa-text',
+        'initvalue' => ''
+    ],
+    'content' => [
+        'label' => 'block.label.content',
+        'type' => 'zaa-wysiwyg',
+        'initvalue' => ''
+    ],
+    'image' => [
+        'label' => 'block.label.image',
+        'type' => 'zaa-file-upload',
+        'initValue' => '',
+        'options' => [
+            'no_filter' => false
+        ]
+    ],
+    'image_link' => [
+        'label' => 'block.label.image',
+        'type' => 'zaa-link',
+        'options' => [
+            'no_filter' => false
+        ]
+    ],
+    'video' => [
+        'label' => 'block.label.video',
+        'type' => 'zaa-link',
+        'options' => [
+            'no_filter' => false
+        ]
+    ],
+    'link' => [
+        'label' => 'block.label.link',
+        'type' => 'zaa-link',
+        'options' => [
+            'no_filter' => false
+        ]
+    ],
+    'image_size' => [
+        'label' => 'block.label.image_size',
+        'initValue' => '',
+        'type' => 'zaa-select',
+        'options' => [
+            ['value' => '', 'label' => 'block.value.auto'],
+            ['value' => 'cover', 'label' => 'block.value.cover'],
+            ['value' => 'contain', 'label' => 'block.value.contain']
+        ]
+    ],
+    'image_position' => [
+        'label' => 'block.label.image_position',
+        'initValue' => 'center-center',
+        'type' => 'zaa-select',
+        'options' => [
+            ['value' => 'top-left', 'label' => 'block.value.top_left'],
+            ['value' => 'top-center', 'label' => 'block.value.top_center'],
+            ['value' => 'top-right', 'label' => 'block.value.top_right'],
+            ['value' => 'center-left', 'label' => 'block.value.center_left'],
+            ['value' => 'center-center', 'label' => 'block.value.center_center'],
+            ['value' => 'center-right', 'label' => 'block.value.center_right'],
+            ['value' => 'bottom-left', 'label' => 'block.value.bottom_left'],
+            ['value' => 'bottom-center', 'label' => 'block.value.bottom_center'],
+            ['value' => 'bottom-right', 'label' => 'block.value.bottom_right']
+        ]
+    ],
+    'image_effect' => [
+        'label' => 'block.label.image_effect',
+        'initValue' => '',
+        'type' => 'zaa-select',
+        'options' => [
+            ['value' => '', 'label' => 'block.value.none'],
+            ['value' => 'parallax', 'label' => 'block.value.parallax'],
+            ['value' => 'fixed', 'label' => 'block.value.fixed']
+        ]
+    ],
+    'color' => [
+        'label' => 'block.label.color',
+        'type' => 'zaa-color',
+    ],
+    'text_color' => [
+        'label' => 'block.label.text_color',
+        'type' => 'zaa-select',
+        'initValue' => '',
+        'options' => [
+            ['value' => '', 'label' => 'block.value.default'],
+            ['value' => 'light', 'label' => 'block.value.light'],
+            ['value' => 'dark', 'label' => 'block.value.dark'],
+        ]
+    ],
+    'blend_mode' => [
+        'label' => 'block.label.blend_mode',
+        'type' => 'zaa-select',
+        'initValue' => '',
+        'options' => [
+            ['value' => '', 'label' => 'block.value.normal'],
+            ['value' => 'multiply', 'label' => 'block.value.multiply'],
+            ['value' => 'screen', 'label' => 'block.value.screen'],
+            ['value' => 'overlay', 'label' => 'block.value.overlay'],
+            ['value' => 'darken', 'label' => 'block.value.darken'],
+            ['value' => 'lighten', 'label' => 'block.value.lighten'],
+            ['value' => 'color_dodge', 'label' => 'block.value.color_dodge'],
+            ['value' => 'color_burn', 'label' => 'block.value.color_burn'],
+            ['value' => 'hard_light', 'label' => 'block.value.hard_light'],
+            ['value' => 'soft_light', 'label' => 'block.value.soft_light'],
+            ['value' => 'difference', 'label' => 'block.value.difference'],
+            ['value' => 'exclusion', 'label' => 'block.value.exclusion'],
+            ['value' => 'hue', 'label' => 'block.value.hue'],
+            ['value' => 'saturation', 'label' => 'block.value.saturation'],
+            ['value' => 'color', 'label' => 'block.value.color'],
+            ['value' => 'luminosity', 'label' => 'block.value.luminosity']
+        ]
+    ],
+    'width' => [
+        'label' => 'block.label.width',
+        'type' => 'zaa-number',
+        'initValue' => '',
+        'placeholder' => 'block.label.auto'
+    ],
+    'height' => [
+        'label' => 'block.label.height',
+        'type' => 'zaa-number',
+        'initValue' => '',
+        'placeholder' => 'block.label.auto'
+    ],
+    'box_shadow' => [
+        'label' => 'block.label.box_shadow',
+        'type' => 'zaa-select',
+        'initvalue' => '',
+        'options' => [
+            ['value' => '', 'label' => 'block.value.none'],
+            ['value' => 'small', 'label' => 'block.value.small'],
+            ['value' => 'medium', 'label' => 'block.value.medium'],
+            ['value' => 'large', 'label' => 'block.value.large'],
+            ['value' => 'xlarge', 'label' => 'block.value.x_large']
+        ]
+    ],
     'align' => [
         'label' => 'block.label.align',
         'type' => 'zaa-select',
@@ -23,6 +171,29 @@ return [
             ['value' => 'l', 'label' => 'block.value.large_desktop'],
             ['value' => 'xl', 'label' => 'block.value.x_large_large_screens']
         ]
+    ],
+    'padding' => [
+        'label' => 'block.label.padding',
+        'initValue' => '',
+        'type' => 'zaa-select',
+        'options' => [
+            ['value' => '', 'label' => 'block.value.default'],
+            ['value' => 'xsmall', 'label' => 'block.value.x_small'],
+            ['value' => 'small', 'label' => 'block.value.small'],
+            ['value' => 'large', 'label' => 'block.value.large'],
+            ['value' => 'xlarge', 'label' => 'block.value.x_large'],
+            ['value' => 'none', 'label' => 'block.value.none']
+        ]
+    ],
+    'padding_remove_top' => [
+        'label' => 'block.label.padding_remove_top',
+        'initValue' => '',
+        'type' => 'zaa-checkbox'
+    ],
+    'padding_remove_bottom' => [
+        'label' => 'block.label.padding_remove_bottom',
+        'initValue' => '',
+        'type' => 'zaa-checkbox'
     ],
     'text_align' => [
         'var' => 'text_align', 'label' => 'block.label.text_align', 'type' => 'zaa-select', 'initvalue' => '', 'options' => [

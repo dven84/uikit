@@ -2,8 +2,13 @@
 
 namespace trk\uikit;
 
+use Yii;
+
 /**
  * Uikit Module
+ *
+ * When adding this module to your configuration the uikit 3 blocks will be added to your
+ * cms administration by running the `import` command.
  *
  * @author Iskender TOTOĞLU <iskender@altivebir.com>
  */
@@ -12,7 +17,7 @@ class Module extends \luya\base\Module
     /**
      * @var array $includes file list for configs
      */
-    protected static $includes = ['general'];
+    protected static $includes = ['general', 'parallax'];
 
     /**
      * @var array configs for store general field configs.
@@ -24,8 +29,10 @@ class Module extends \luya\base\Module
      */
     public static function onLoad()
     {
+        Yii::setAlias('@uikit', static::staticBasePath());
+
         self::registerTranslation('uikit*', static::staticBasePath() . '/messages', [
-            'uikit' => 'uikit.php',
+            'uikit' => 'uikit.php'
         ]);
 
         $path = __DIR__ . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR;
@@ -47,25 +54,53 @@ class Module extends \luya\base\Module
      */
     public static function config($name = "", $overwrites = [])
     {
-        $config = self::element($name, self::$configs, ['var' => $name, 'label' => $name, 'type' => 'zaa-text']);
+        $config = Uikit::element($name, self::$configs, ['var' => $name, 'label' => $name, 'type' => 'zaa-text']);
 
-        if(!self::element('var', $config)) {
+        if(!Uikit::element('var', $config)) {
             $config['var'] = $name;
         }
 
         // Overwrite
         if(count($overwrites)) $config = array_merge($config, $overwrites);
 
-        $label = self::element('label', $config, '');
-        $config['label'] = self::t($label);
-        $options = self::element('options', $config);
+        $config['label'] = self::t(Uikit::element('label', $config, ''));
+        $config['placeholder'] = self::t(Uikit::element('placeholder', $config, ''));
+        $options = Uikit::element('options', $config);
         if(is_array($options) && count($options)) {
             foreach ($options as $key => $option) {
-                $options[$key]['label'] = self::t(self::element('label', $option, ''));
+                if(is_array($option)) {
+                    $options[$key]['label'] = self::t(Uikit::element('label', $option, ''));
+                    $options[$key]['placeholder'] = self::t(Uikit::element('placeholder', $option, ''));
+                }
             }
             $config['options'] = $options;
         }
         return $config;
+    }
+
+    /**
+     * Get group of configs
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public static function configs($name = "") {
+        $configs = Uikit::element($name, self::$configs, ['var' => $name, 'label' => $name, 'type' => 'zaa-text']);
+        foreach ($configs as $key => $config) {
+            if(is_array($config)) {
+                $configs[$key]['label'] = self::t(Uikit::element('label', $config, ''));
+                $configs[$key]['placeholder'] = self::t(Uikit::element('placeholder', $config, ''));
+                $options = Uikit::element('options', $config, []);
+                if(count($options)) {
+                    foreach ($options as $option_key => $option) {
+                        $options[$option_key]['label'] = self::t(Uikit::element('label', $option, ''));
+                        $options[$option_key]['placeholder'] = self::t(Uikit::element('placeholder', $option, ''));
+                    }
+                    $configs[$key]['options'] = $options;
+                }
+            }
+        }
+        return $configs;
     }
 
     /**
@@ -78,21 +113,5 @@ class Module extends \luya\base\Module
     public static function t($message, array $params = [])
     {
         return parent::baseT('uikit', $message, $params);
-    }
-
-    /**
-     * Element
-     *
-     * Lets you determine whether an array index is set and whether it has a value.
-     * If the element is empty it returns NULL (or whatever you specify as the default value.)
-     *
-     * @param	string
-     * @param	array
-     * @param	mixed
-     * @return	mixed	depends on what the array contains
-     */
-    public static function element($item, array $array, $default = NULL)
-    {
-        return array_key_exists($item, $array) ? $array[$item] : $default;
     }
 }

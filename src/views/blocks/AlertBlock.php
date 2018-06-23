@@ -1,29 +1,29 @@
 <?php
+
 use trk\uikit\Uikit;
+
 /**
  * @var $this \luya\cms\base\PhpBlockView
  *
  */
-?>
-<?php if($this->varValue('title') || $this->varValue('content')): ?>
-    <?php
-    $configs = Uikit::configs($this);
 
-    $id    = $this->cfgValue('id');
+if(isset($configs) && $configs['title'] || $configs['content']):
+    
+    $id    = $configs['id'];
     $class = $configs['class'];
     $attrs = $configs['attrs'];
 
     // Style
-    $class[] = $this->cfgValue('alert_style') ? "uk-alert uk-alert-{$this->cfgValue('alert_style')}" : 'uk-alert';
+    $class[] = $configs['alert_style'] ? "uk-alert uk-alert-{$configs['alert_style']}" : 'uk-alert';
     // Size
-    $class[] = $this->cfgValue('alert_size') ? "uk-padding" : '';
+    $class[] = $configs['alert_size'] ? "uk-padding" : '';
     ?>
     <div<?= Uikit::attrs(compact('id', 'class'), $attrs) ?>>
-        <?php if ($title = $this->varValue('title')) : ?>
-            <h3><?= $title ?></h3>
+        <?php if ($configs['title']) : ?>
+            <h3><?= $configs['title'] ?></h3>
         <?php endif ?>
-        <?php if($content = $this->varValue('content')): ?>
-            <div><?= $this->varValue('content') ?></div>
+        <?php if($configs['content']): ?>
+            <div><?= $configs['content'] ?></div>
         <?php endif; ?>
     </div>
 <?php endif; ?>

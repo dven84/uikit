@@ -1,31 +1,32 @@
 <?php
+
 use trk\uikit\Uikit;
+
 /**
  * @var $this \luya\cms\base\PhpBlockView
  *
  */
-$configs = Uikit::configs($this);
 
-$id    = $this->cfgValue('id');
+$id    = $configs['id'];
 $class = $configs['class'];
 $attrs = $configs['attrs'];
 
 // Style
-$class[] = $this->varValue('divider_style') ? "uk-divider-{$this->varValue('divider_style')}" : '';
-$class[] = !$this->varValue('divider_style') && $this->varValue('divider_element') == 'div' ? 'uk-hr' : '';
+$class[] = $configs['divider_style'] ? "uk-divider-{$configs['divider_style']}" : '';
+$class[] = !$configs['divider_style'] && $configs['divider_element'] == 'div' ? 'uk-hr' : '';
 // Alignment
-if ($this->varValue('divider_style') == 'small') {
-    if ($this->cfgValue('divider_align') && $this->cfgValue('divider_align') != 'justify' && $this->cfgValue('divider_align_breakpoint')) {
-        $class[] = "uk-text-{$this->cfgValue('divider_align')}@{$this->cfgValue('divider_align_breakpoint')}";
-        if ($this->cfgValue('divider_align_fallback')) {
-            $class[] = "uk-text-{$this->cfgValue('divider_align_fallback')}";
+if ($configs['divider_style'] == 'small') {
+    if ($configs['divider_align'] && $configs['divider_align'] != 'justify' && $configs['divider_align_breakpoint']) {
+        $class[] = "uk-text-{$configs['divider_align']}@{$configs['divider_align_breakpoint']}";
+        if ($configs['divider_align_fallback']) {
+            $class[] = "uk-text-{$configs['divider_align_fallback']}";
         }
-    } else if ($this->cfgValue('divider_align')) {
-        $class[] = "uk-text-{$this->cfgValue('divider_align')}";
+    } else if ($configs['divider_align']) {
+        $class[] = "uk-text-{$configs['divider_align']}";
     }
 }
 ?>
-<?php if ($this->varValue('divider_element') == 'div') : ?>
+<?php if ($configs['divider_element'] == 'div') : ?>
     <div <?= Uikit::attrs(compact('id', 'class'), $attrs) ?>></div>
 <?php else : ?>
     <hr <?= Uikit::attrs(compact('id', 'class'), $attrs) ?>>

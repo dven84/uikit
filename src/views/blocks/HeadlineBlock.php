@@ -1,45 +1,46 @@
 <?php
+
 use trk\uikit\Uikit;
+
 /**
  * @var $this \luya\cms\base\PhpBlockView
  *
  */
-?>
-<?php if($this->varValue('content')): ?>
-    <?php
-    $configs = Uikit::configs($this);
 
-    $id    = $this->cfgValue('id');
+$link = Uikit::link($this->varValue('link'), $this->extraValue('link'));
+
+if(isset($configs) && $configs['content']):
+
+    $id    = $configs['id'];
     $class = $configs['class'];
     $attrs = $configs['attrs'];
 
     $attrs_link = [];
 
     // Set content
-    $content = $this->varValue('content');
+    $content = $configs['content'];
     // Style
-    $class[] = $this->cfgValue('title_style') ? 'uk-' . $this->cfgValue('title_style') : '';
+    $class[] = $configs['title_style'] ? 'uk-' . $configs['title_style'] : '';
     // Decoration
-    $class[] = $this->cfgValue('title_decoration') ? 'uk-heading-' . $this->cfgValue('title_decoration') : '';
+    $class[] = $configs['title_decoration'] ? 'uk-heading-' . $configs['title_decoration'] : '';
     // Color
-    $class[] = $this->cfgValue('title_color') && $this->cfgValue('title_color') != 'background' ? 'uk-text-' . $this->cfgValue('title_color') : '';
+    $class[] = $configs['title_color'] && $configs['title_color'] != 'background' ? 'uk-text-' . $configs['title_color'] : '';
     // Link
-    $link = $this->varValue('link');
-    if (is_array($link) && array_key_exists('value', $link) && $link['value']) {
-        $attrs_link['target'] = array_key_exists('target', $link) && $link['target'] ? '_blank' : '';
-        $attrs_link['data-uk-scroll'] = strpos($link['value'], '#') === 0;
-        $attrs_link['class'][] = $this->cfgValue('link_style') ? 'uk-link-heading' : 'uk-link-reset';
-        $content = Uikit::link_tag($content, $link['value'], $attrs_link);
+    if ($link['href']) {
+        $attrs_link['target'] = $link['target'] ? '_blank' : '';
+        $attrs_link['data-uk-scroll'] = strpos($link['href'], '#') === 0;
+        $attrs_link['class'][] = $configs['link_style'] ? 'uk-link-heading' : 'uk-link-reset';
+        $content = Uikit::link_tag($content, $link['href'], $attrs_link);
     }
-    $content = strtr($content, array("<p>" => "", "</p>" => ""));
+    $content = strtr($content, array("<p>" => "", "</p>" => "", "<div>" => "", "</div>" => ""));
     ?>
-    <<?= $this->cfgValue('title_element') . Uikit::attrs(compact('id', 'class'), $attrs) ?>>
-    <?php if ($this->cfgValue('title_color') == 'background') : ?>
+    <<?= $configs['title_element'] . Uikit::attrs(compact('id', 'class'), $attrs) ?>>
+    <?php if ($configs['title_color'] == 'background') : ?>
         <span class="uk-text-background"><?= $content ?></span>
-    <?php elseif ($this->cfgValue('title_decoration') == 'line') : ?>
+    <?php elseif ($configs['title_decoration'] == 'line') : ?>
         <span><?= $content ?></span>
     <?php else : ?>
         <?= $content ?>
     <?php endif ?>
-    </<?= $this->cfgValue('title_element') ?>>
+    </<?= $configs['title_element'] ?>>
 <?php endif; ?>

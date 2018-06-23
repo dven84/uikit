@@ -5,6 +5,7 @@ namespace trk\uikit\blocks;
 use luya\TagParser;
 use trk\uikit\Module;
 use trk\uikit\BaseUikitBlock;
+use luya\cms\helpers\BlockHelper;
 use luya\cms\frontend\blockgroups\TextGroup;
 
 /**
@@ -40,7 +41,7 @@ final class HeadlineBlock extends BaseUikitBlock
      */
     public function icon()
     {
-        return 'title';
+        return 'view_headline';
     }
 
     /**
@@ -55,7 +56,7 @@ final class HeadlineBlock extends BaseUikitBlock
             ],
             'cfgs' => [
                 // Title
-                ['var' => 'title_style', 'label' => Module::t('block.label.style'), 'type' => 'zaa-select', 'initvalue' => '', 'options' => [
+                ['var' => 'title_style', 'label' => Module::t('block.label.style'), 'type' => 'zaa-select', 'initValue' => '', 'options' => [
                     ['value' => '', 'label' => Module::t('block.value.default')],
                     ['value' => 'hero', 'label' => Module::t('block.value.hero')],
                     ['value' => 'primary', 'label' => Module::t('block.value.primary')],
@@ -66,13 +67,13 @@ final class HeadlineBlock extends BaseUikitBlock
                     ['value' => 'h5', 'label' => Module::t('block.value.h5')],
                     ['value' => 'h6', 'label' => Module::t('block.value.h6')]
                 ]],
-                ['var' => 'title_decoration', 'label' => Module::t('block.label.decoration'), 'type' => 'zaa-select', 'initvalue' => '', 'options' => [
+                ['var' => 'title_decoration', 'label' => Module::t('block.label.decoration'), 'type' => 'zaa-select', 'initValue' => '', 'options' => [
                     ['value' => '', 'label' => Module::t('block.value.none')],
                     ['value' => 'divider', 'label' => Module::t('block.value.divider')],
                     ['value' => 'bullet', 'label' => Module::t('block.value.bullet')],
                     ['value' => 'line', 'label' => Module::t('block.value.line')]
                 ]],
-                ['var' => 'title_color', 'label' => Module::t('block.label.color'), 'type' => 'zaa-select', 'initvalue' => '', 'options' => [
+                ['var' => 'title_color', 'label' => Module::t('block.label.color'), 'type' => 'zaa-select', 'initValue' => '', 'options' => [
                     ['value' => '', 'label' => Module::t('block.value.default')],
                     ['value' => 'muted', 'label' => Module::t('block.value.muted')],
                     ['value' => 'primary', 'label' => Module::t('block.value.primary')],
@@ -82,7 +83,7 @@ final class HeadlineBlock extends BaseUikitBlock
                     ['value' => 'background', 'label' => Module::t('block.value.background')]
                 ]],
                 ['var' => 'link_style', 'label' =>  Module::t('block.label.show_hover_effect'), 'type' => 'zaa-checkbox'],
-                ['var' => 'title_element', 'label' => Module::t('block.label.html_element'), 'type' => 'zaa-select', 'initvalue' => 'h1', 'options' => [
+                ['var' => 'title_element', 'label' => Module::t('block.label.html_element'), 'type' => 'zaa-select', 'initValue' => 'h1', 'options' => [
                     ['value' => 'h1', 'label' => Module::t('block.value.h1')],
                     ['value' => 'h2', 'label' => Module::t('block.value.h2')],
                     ['value' => 'h3', 'label' => Module::t('block.value.h3')],
@@ -124,16 +125,13 @@ final class HeadlineBlock extends BaseUikitBlock
         return nl2br($text);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function extraVars()
     {
-        return [
-            'text' => $this->getText(),
-        ];
+        $this->extraValues['text'] = $this->getText();
+        $this->extraValues['link'] = BlockHelper::linkObject($this->getVarValue('link'));
+        return parent::extraVars();
     }
-    
+
     /**
      * @inheritdoc
      */
