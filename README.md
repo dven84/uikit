@@ -21,13 +21,7 @@ For the installation of modules Composer is required.
 composer require trk/uikit
 ```
 
-After install via composer don't forget
-
-```sh
-./luya migrate
-```
-
-and
+After install via composer don't forget to run the import command:
 
 ```sh
 ./luya import
