@@ -7,7 +7,7 @@ use trk\uikit\BaseUikitBlock;
 use luya\cms\frontend\blockgroups\MediaGroup;
 
 /**
- * Text Block.
+ * Slideshow Block.
  *
  * @author Iskender TOTOĞLU <iskender@altivebir.com>
  */
@@ -43,62 +43,67 @@ final class SlideshowBlock extends BaseUikitBlock
     }
 
     /**
-     * @inheritdoc
+     * Return block fields
+     *
+     * @return array
      */
-    public function config()
-    {
-        return [
-            'vars' => [
-                // Slides
-                ['var' => 'items', 'label' => $this->t('block.label.items'), 'type' => self::TYPE_MULTIPLE_INPUTS, 'options' => [
-                    $this->getConfig('image'),
-                    $this->getConfig('image_alt'),
-                    $this->getConfig('title'),
-                    $this->getConfig('meta'),
-                    $this->getConfig('content'),
-                    $this->getConfig('link'),
-                    $this->getConfig('text_color'),
-                    $this->getConfig('inverse_color')
-                ]],
-                // Show options
-                $this->getConfig('show_title'),
-                $this->getConfig('show_meta'),
-                $this->getConfig('show_content'),
-                $this->getConfig('show_link'),
-                $this->getConfig('show_thumbnail')
-            ],
-            'cfgs' => [
-                // General
-                $this->getConfig('text_align'),
-                $this->getConfig('text_align_breakpoint'),
-                $this->getConfig('text_align_fallback'),
-                $this->getConfig('maxwidth'),
-                $this->getConfig('maxwidth_align'),
-                $this->getConfig('maxwidth_breakpoint'),
-                $this->getConfig('margin'),
-                $this->getConfig('margin_remove_top'),
-                $this->getConfig('margin_remove_bottom'),
-                $this->getConfig('animation'),
-                $this->getConfig('visibility'),
-                // Advanced
-                $this->getConfig('name'),
-                $this->getConfig('id'),
-                $this->getConfig('class'),
-                $this->getConfig('css')
-            ]
-        ];
-    }
+    public function config() {
+        $vars = [];
+        $cfgs = [];
+        $placeholders = [];
+        // Items
+        $vars[] = ['var' => 'items', 'label' => $this->t('block.label.items'), 'type' => self::TYPE_MULTIPLE_INPUTS, 'options' => [
+            $this->getConfig('image'),
+            $this->getConfig('color', ['var' => 'media_background', 'label' => 'block.label.background_color']),
+            $this->getConfig('blend_mode', ['var' => 'media_blend_mode']),
+            $this->getConfig('overlay_color', ['var' => 'media_overlay']),
+            $this->getConfig('image_alt'),
+            $this->getConfig('title'),
+            $this->getConfig('meta'),
+            $this->getConfig('content'),
+            $this->getConfig('link'),
+            $this->getConfig('text_color'),
+            $this->getConfig('inverse_color')
+        ]];
+        // Display options
+        $vars[] = $this->getConfig('show_title');
+        $vars[] = $this->getConfig('show_meta');
+        $vars[] = $this->getConfig('show_content');
+        $vars[] = $this->getConfig('show_link');
+        $vars[] = $this->getConfig('show_thumbnail');
+        // Slideshow
+        $cfgs[] = $this->getConfig('viewport_height', ['label' => 'block.label.slideshow_height', 'help' => 'block.description.slideshow_height']);
+        $cfgs[] = $this->setConfig([
+            'var' => 'slideshow_ratio',
+            'label' => 'block.label.slideshow_ratio',
+            'help' => 'block.description.slideshow_ratio',
+            'type' => self::TYPE_TEXT,
+            'placeholder' => '16:9',
+            'initValue' => ''
+        ]);
+        // General
+        $cfgs[] = $this->getConfig('text_align');
+        $cfgs[] = $this->getConfig('text_align_breakpoint');
+        $cfgs[] = $this->getConfig('text_align_fallback');
+        $cfgs[] = $this->getConfig('maxwidth');
+        $cfgs[] = $this->getConfig('maxwidth_align');
+        $cfgs[] = $this->getConfig('maxwidth_breakpoint');
+        $cfgs[] = $this->getConfig('margin');
+        $cfgs[] = $this->getConfig('margin_remove_top');
+        $cfgs[] = $this->getConfig('margin_remove_bottom');
+        $cfgs[] = $this->getConfig('animation');
+        $cfgs[] = $this->getConfig('visibility');
+        // Advanced
+        $cfgs[] = $this->getConfig('name');
+        $cfgs[] = $this->getConfig('id');
+        $cfgs[] = $this->getConfig('class');
+        $cfgs[] = $this->getConfig('css');
 
-    /**
-     * Get the text based on type input.
-     */
-    public function getText()
-    {
-        $text = $this->getVarValue('content');
-        if ($this->getVarValue('textType', 0) == 1) {
-            return TagParser::convertWithMarkdown($text);
-        }
-        return nl2br($text);
+        $return = [];
+        if(count($vars)) $return['vars'] = $vars;
+        if(count($cfgs)) $return['cfgs'] = $cfgs;
+        if(count($placeholders)) $return['placeholders'] = $placeholders;
+        return $return;
     }
 
     /**
@@ -106,7 +111,6 @@ final class SlideshowBlock extends BaseUikitBlock
      */
     public function extraVars()
     {
-        $this->extraValues['text'] = $this->getText();
         return parent::extraVars();
     }
     

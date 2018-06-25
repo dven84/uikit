@@ -123,6 +123,9 @@ return [
     'block.label.items' => 'Items',
     'block.label.meta' => 'Meta',
     'block.label.inverse_color' => 'Inverse Color',
+    'block.label.drop_cap' => 'Drop cap',
+    'block.label.slideshow_height' => 'Slideshow Height',
+    'block.label.slideshow_ratio' => 'Slideshow Ratio',
 
     /// Descriptions
     /// block.description.*
@@ -134,6 +137,8 @@ return [
     'block.description.parallax_opacity' => 'min: 0, max: 1, step: .1',
     'block.description.parallax_offset' => 'min: 0, max: 600, step: 10',
     'block.description.show_thumbnail' => 'Show or hide content fields without the need to delete the content itself.',
+    'block.description.slideshow_height' => 'The slideshow always takes up full width, and the height will adapt automatically based on the defined ratio. Alternatively, the height can adapt to the height of the viewport.',
+    'block.description.slideshow_ratio' => "Set a ratio. It's recommended to use the same ratio of the background image. Just use its width and height, like `1600:900`.",
 
     /// Values
     /// block.value.*

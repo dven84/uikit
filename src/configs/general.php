@@ -13,6 +13,17 @@
  * ]
  */
 return [
+    'viewport_height' => [
+        'label' => 'block.label.height',
+        'type' => 'zaa-select',
+        'initValue' => '',
+        'options' => [
+            ['value' => '', 'label' => 'block.value.auto'],
+            ['value' => 'percent', 'label' => 'block.value.viewport'],
+            ['value' => 'large', 'label' => 'block.value.viewport_minus_20'],
+            ['value' => 'section', 'label' => 'block.value.viewport_minus_following'],
+        ]
+    ],
     'show_title' => [
         'label' => 'block.label.show_title',
         'initValue' => true,

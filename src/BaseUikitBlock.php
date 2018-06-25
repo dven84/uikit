@@ -13,11 +13,19 @@ use luya\cms\base\PhpBlock;
  */
 abstract class BaseUikitBlock extends PhpBlock
 {
-
+    /**
+     * @inheritdoc
+     */
     public $extraValues = [];
 
+    /**
+     * @inheritdoc
+     */
     public $helps = [];
 
+    /**
+     * @inheritdoc
+     */
     public $descriptions = [];
 
     /**
@@ -66,6 +74,19 @@ abstract class BaseUikitBlock extends PhpBlock
         }
         // Overwrites
         if(count($overwrites)) $config = array_merge($config, $overwrites);
+
+        return $this->setConfig($config);
+    }
+
+    /**
+     * Set config & get config data
+     *
+     * @param array $config
+     * @return array
+     */
+    public function setConfig(array $config = []) {
+        // Config name
+        $name = Uikit::element('var', $config, 'input');
         // Set label & placeholders
         $config['label'] = $this->t(Uikit::element('label', $config, ''));
         $config['placeholder'] = $this->t(Uikit::element('placeholder', $config, ''));
@@ -75,7 +96,7 @@ abstract class BaseUikitBlock extends PhpBlock
         }
         // Set helps
         if($help = Uikit::element('help', $config, '')) {
-            $this->helps[$name] = $help;
+            $this->helps[$name] = $this->t($help);
         }
 
         // Check options
