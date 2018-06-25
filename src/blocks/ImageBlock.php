@@ -2,7 +2,6 @@
 
 namespace trk\uikit\blocks;
 
-use trk\uikit\Module;
 use trk\uikit\BaseUikitBlock;
 use luya\cms\base\PhpBlock;
 use luya\cms\helpers\BlockHelper;
@@ -33,7 +32,7 @@ final class ImageBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('block.title.image');
+        return $this->t('block.title.image');
     }
 
     /**
@@ -51,47 +50,47 @@ final class ImageBlock extends BaseUikitBlock
     {
         return [
             'vars' => [
-                ['var' => 'image', 'label' => Module::t('block.label.image'), 'type' => self::TYPE_IMAGEUPLOAD, 'options' => ['no_filter' => false]],
-                ['var' => 'image_width', 'label' => Module::t('block.label.width'), 'type' => self::TYPE_NUMBER],
-                ['var' => 'image_height', 'label' => Module::t('block.label.height'), 'type' => self::TYPE_NUMBER],
-                ['var' => 'image_alt', 'label' => Module::t('block.label.image_alt'), 'type' => self::TYPE_TEXT],
-                ['var' => 'link', 'label' => Module::t('block.label.link'), 'type' => self::TYPE_LINK],
-                ['var' => 'link_target', 'label' => Module::t('block.label.link_target'), 'type' => self::TYPE_SELECT, 'options' => [
-                    ['value' => '', 'label' => Module::t('block.value.same_window')],
-                    ['value' => 'blank', 'label' => Module::t('block.value.new_window')],
-                    ['value' => 'modal', 'label' => Module::t('block.value.modal')]
+                ['var' => 'image', 'label' => $this->t('block.label.image'), 'type' => self::TYPE_IMAGEUPLOAD, 'options' => ['no_filter' => false]],
+                ['var' => 'image_width', 'label' => $this->t('block.label.width'), 'type' => self::TYPE_NUMBER],
+                ['var' => 'image_height', 'label' => $this->t('block.label.height'), 'type' => self::TYPE_NUMBER],
+                ['var' => 'image_alt', 'label' => $this->t('block.label.image_alt'), 'type' => self::TYPE_TEXT],
+                ['var' => 'link', 'label' => $this->t('block.label.link'), 'type' => self::TYPE_LINK],
+                ['var' => 'link_target', 'label' => $this->t('block.label.link_target'), 'type' => self::TYPE_SELECT, 'options' => [
+                    ['value' => '', 'label' => $this->t('block.value.same_window')],
+                    ['value' => 'blank', 'label' => $this->t('block.value.new_window')],
+                    ['value' => 'modal', 'label' => $this->t('block.value.modal')]
                 ]]
             ],
             'cfgs' => [
                 // Image
-                ['var' => 'image_border', 'label' => Module::t('block.label.border'), 'type' => SELF::TYPE_SELECT, 'initvalue' => '', 'options' => [
-                    ['value' => '', 'label' => Module::t('block.value.none')],
-                    ['value' => 'circle', 'label' => Module::t('block.value.circle')],
-                    ['value' => 'rounded', 'label' => Module::t('block.value.rounded')]
+                ['var' => 'image_border', 'label' => $this->t('block.label.border'), 'type' => SELF::TYPE_SELECT, 'initvalue' => '', 'options' => [
+                    ['value' => '', 'label' => $this->t('block.value.none')],
+                    ['value' => 'circle', 'label' => $this->t('block.value.circle')],
+                    ['value' => 'rounded', 'label' => $this->t('block.value.rounded')]
                 ]],
-                Module::config('box_shadow', ['var' => 'image_box_shadow', 'type' => SELF::TYPE_SELECT]),
-                ['var' => 'image_box_shadow_bottom', 'label' => Module::t('block.label.box_shadow_bottom'), 'type' => SELF::TYPE_CHECKBOX],
-                Module::config('box_shadow', ['var' => 'image_hover_box_shadow', 'label' => Module::t('block.label.hover_box_shadow'),  'type' => SELF::TYPE_SELECT]),
+                $this->getConfig('box_shadow', ['var' => 'image_box_shadow', 'type' => SELF::TYPE_SELECT]),
+                ['var' => 'image_box_shadow_bottom', 'label' => $this->t('block.label.box_shadow_bottom'), 'type' => SELF::TYPE_CHECKBOX],
+                $this->getConfig('box_shadow', ['var' => 'image_hover_box_shadow', 'label' => $this->t('block.label.hover_box_shadow'),  'type' => SELF::TYPE_SELECT]),
                 // Lightbox
-                ['var' => 'lightbox_width', 'label' => Module::t('block.label.lightbox_width'), 'type' => self::TYPE_NUMBER],
-                ['var' => 'lightbox_height', 'label' => Module::t('block.label.lightbox_height'), 'type' => self::TYPE_NUMBER],
+                ['var' => 'lightbox_width', 'label' => $this->t('block.label.lightbox_width'), 'type' => self::TYPE_NUMBER],
+                ['var' => 'lightbox_height', 'label' => $this->t('block.label.lightbox_height'), 'type' => self::TYPE_NUMBER],
                 // General
-                Module::config('text_align'),
-                Module::config('text_align_breakpoint'),
-                Module::config('text_align_fallback'),
-                Module::config('maxwidth'),
-                Module::config('maxwidth_align'),
-                Module::config('maxwidth_breakpoint'),
-                Module::config('margin'),
-                Module::config('margin_remove_top'),
-                Module::config('margin_remove_bottom'),
-                Module::config('animation'),
-                Module::config('visibility'),
+                $this->getConfig('text_align'),
+                $this->getConfig('text_align_breakpoint'),
+                $this->getConfig('text_align_fallback'),
+                $this->getConfig('maxwidth'),
+                $this->getConfig('maxwidth_align'),
+                $this->getConfig('maxwidth_breakpoint'),
+                $this->getConfig('margin'),
+                $this->getConfig('margin_remove_top'),
+                $this->getConfig('margin_remove_bottom'),
+                $this->getConfig('animation'),
+                $this->getConfig('visibility'),
                 // Advanced
-                Module::config('name'),
-                Module::config('id'),
-                Module::config('class'),
-                Module::config('css')
+                $this->getConfig('name'),
+                $this->getConfig('id'),
+                $this->getConfig('class'),
+                $this->getConfig('css')
             ]
         ];
     }

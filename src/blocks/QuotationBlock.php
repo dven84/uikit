@@ -3,7 +3,6 @@
 namespace trk\uikit\blocks;
 
 use luya\TagParser;
-use trk\uikit\Module;
 use trk\uikit\BaseUikitBlock;
 use luya\cms\helpers\BlockHelper;
 use luya\cms\frontend\blockgroups\TextGroup;
@@ -33,7 +32,7 @@ final class QuotationBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('block.title.quotation');
+        return $this->t('block.title.quotation');
     }
 
     /**
@@ -51,46 +50,38 @@ final class QuotationBlock extends BaseUikitBlock
     {
         return [
             'vars' => [
-                Module::config('content'),
-                ['var' => 'author', 'label' =>  Module::t('block.label.author'), 'type' => 'zaa-text'],
-                Module::config('link', ['label' => 'block.label.author_link']),
-                Module::config('title', ['var' => 'footer', 'label' => 'block.label.footer'])
+                $this->getConfig('content'),
+                ['var' => 'author', 'label' =>  $this->t('block.label.author'), 'type' => 'zaa-text'],
+                $this->getConfig('link', ['label' => 'block.label.author_link']),
+                $this->getConfig('title', ['var' => 'footer', 'label' => 'block.label.footer'])
             ],
             'cfgs' => [
                 // Link style
-                ['var' => 'link_style', 'label' => Module::t('block.label.style'), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
-                    ['value' => '', 'label' => Module::t('block.value.default')],
-                    ['value' => 'muted', 'label' => Module::t('block.value.muted')],
-                    ['value' => 'text', 'label' => Module::t('block.value.text')],
-                    ['value' => 'text', 'label' => Module::t('block.value.reset')]
+                ['var' => 'link_style', 'label' => $this->t('block.label.style'), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
+                    ['value' => '', 'label' => $this->t('block.value.default')],
+                    ['value' => 'muted', 'label' => $this->t('block.value.muted')],
+                    ['value' => 'text', 'label' => $this->t('block.value.text')],
+                    ['value' => 'text', 'label' => $this->t('block.value.reset')]
                 ]],
                 // General
-                Module::config('text_align'),
-                Module::config('text_align_breakpoint'),
-                Module::config('text_align_fallback'),
-                Module::config('maxwidth'),
-                Module::config('maxwidth_align'),
-                Module::config('maxwidth_breakpoint'),
-                Module::config('margin'),
-                Module::config('margin_remove_top'),
-                Module::config('margin_remove_bottom'),
-                Module::config('animation'),
-                Module::config('visibility'),
+                $this->getConfig('text_align'),
+                $this->getConfig('text_align_breakpoint'),
+                $this->getConfig('text_align_fallback'),
+                $this->getConfig('maxwidth'),
+                $this->getConfig('maxwidth_align'),
+                $this->getConfig('maxwidth_breakpoint'),
+                $this->getConfig('margin'),
+                $this->getConfig('margin_remove_top'),
+                $this->getConfig('margin_remove_bottom'),
+                $this->getConfig('animation'),
+                $this->getConfig('visibility'),
                 // Advanced
-                Module::config('name'),
-                Module::config('id'),
-                Module::config('class'),
-                Module::config('css')
+                $this->getConfig('name'),
+                $this->getConfig('id'),
+                $this->getConfig('class'),
+                $this->getConfig('css')
             ]
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getFieldHelp()
-    {
-        return [];
     }
 
     /**
@@ -120,6 +111,6 @@ final class QuotationBlock extends BaseUikitBlock
      */
     public function admin()
     {
-        return '{% if vars.content is not empty %}<div>{{ vars.content }}</div>{% else %}<span class="block__empty-text">' . Module::t('block.description.no_content') . '</span>{% endif %}';
+        return '{% if vars.content is not empty %}<div>{{ vars.content }}</div>{% else %}<span class="block__empty-text">' . $this->t('block.description.no_content') . '</span>{% endif %}';
     }
 }

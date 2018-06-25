@@ -2,7 +2,6 @@
 
 namespace trk\uikit\blocks;
 
-use trk\uikit\Module;
 use trk\uikit\BaseUikitBlock;
 
 /**
@@ -22,7 +21,7 @@ final class DividerBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('block.title.divider');
+        return $this->t('block.title.divider');
     }
 
     /**
@@ -40,36 +39,36 @@ final class DividerBlock extends BaseUikitBlock
     {
         return [
             'vars' => [
-                ['var' => 'divider_style', 'label' => Module::t('block.label.style'), 'type' => 'zaa-select', 'initvalue' => '', 'options' => [
-                    ['value' => '', 'label' => Module::t('block.value.default')],
-                    ['value' => 'icon', 'label' => Module::t('block.value.icon')],
-                    ['value' => 'small', 'label' => Module::t('block.value.small')]
+                ['var' => 'divider_style', 'label' => $this->t('block.label.style'), 'type' => 'zaa-select', 'initvalue' => '', 'options' => [
+                    ['value' => '', 'label' => $this->t('block.value.default')],
+                    ['value' => 'icon', 'label' => $this->t('block.value.icon')],
+                    ['value' => 'small', 'label' => $this->t('block.value.small')]
                 ]],
-                ['var' => 'divider_element', 'label' => Module::t('block.label.html_element'), 'type' => 'zaa-select', 'initvalue' => 'hr', 'options' => [
-                    ['value' => 'hr', 'label' => Module::t('block.value.hr')],
-                    ['value' => 'div', 'label' => Module::t('block.value.div')]
+                ['var' => 'divider_element', 'label' => $this->t('block.label.html_element'), 'type' => 'zaa-select', 'initvalue' => 'hr', 'options' => [
+                    ['value' => 'hr', 'label' => $this->t('block.value.hr')],
+                    ['value' => 'div', 'label' => $this->t('block.value.div')]
                 ]],
             ],
             'cfgs' => [
                 // Divider
-                Module::config('align', ['var' => 'divider_align']),
-                Module::config('breakpoint', ['var' => 'divider_align_breakpoint']),
-                Module::config('align', ['var' => 'divider_align_fallback', 'label' => 'block.label.align_fallback']),
+                $this->getConfig('align', ['var' => 'divider_align']),
+                $this->getConfig('breakpoint', ['var' => 'divider_align_breakpoint']),
+                $this->getConfig('align', ['var' => 'divider_align_fallback', 'label' => 'block.label.align_fallback']),
 
                 // General
-                Module::config('maxwidth'),
-                Module::config('maxwidth_align'),
-                Module::config('maxwidth_breakpoint'),
-                Module::config('margin'),
-                Module::config('margin_remove_top'),
-                Module::config('margin_remove_bottom'),
-                Module::config('animation'),
-                Module::config('visibility'),
+                $this->getConfig('maxwidth'),
+                $this->getConfig('maxwidth_align'),
+                $this->getConfig('maxwidth_breakpoint'),
+                $this->getConfig('margin'),
+                $this->getConfig('margin_remove_top'),
+                $this->getConfig('margin_remove_bottom'),
+                $this->getConfig('animation'),
+                $this->getConfig('visibility'),
                 // Advanced
-                Module::config('name'),
-                Module::config('id'),
-                Module::config('class'),
-                Module::config('css')
+                $this->getConfig('name'),
+                $this->getConfig('id'),
+                $this->getConfig('class'),
+                $this->getConfig('css')
             ]
         ];
     }

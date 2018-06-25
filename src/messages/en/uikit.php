@@ -13,6 +13,7 @@ return [
     'block.title.section' => 'Section',
     'block.title.layout' => 'Layout',
     'block.title.quotation' => 'Quotation',
+    'block.title.slideshow' => 'Slideshow',
 
 
     /// Labels
@@ -114,16 +115,25 @@ return [
     'block.label.author' => 'Author',
     'block.label.author_link' => 'Author Link',
     'block.label.footer' => 'Footer',
+    'block.label.show_title' => 'Show the title',
+    'block.label.show_meta' => 'Show the meta text',
+    'block.label.show_content' => 'Show the content',
+    'block.label.show_link' => 'Show the link',
+    'block.label.show_thumbnail' => 'Show the thumbnail',
+    'block.label.items' => 'Items',
+    'block.label.meta' => 'Meta',
+    'block.label.inverse_color' => 'Inverse Color',
 
     /// Descriptions
     /// block.description.*
     'block.description.link' => 'Enter or pick a link, an image or a video file.',
     'block.description.no_content' => 'Not content inside block yet.',
-    "block.description.parallax_horizontal_vertical" => 'min: -600, max: 600, step: 10',
-    "block.description.parallax_scale" => 'min: .3, max: 4, step: .1',
-    "block.description.parallax_rotate" => 'min: 0, max: 360, step: 10',
-    "block.description.parallax_opacity" => 'min: 0, max: 1, step: .1',
+    'block.description.parallax_horizontal_vertical' => 'min: -600, max: 600, step: 10',
+    'block.description.parallax_scale' => 'min: .3, max: 4, step: .1',
+    'block.description.parallax_rotate' => 'min: 0, max: 360, step: 10',
+    'block.description.parallax_opacity' => 'min: 0, max: 1, step: .1',
     'block.description.parallax_offset' => 'min: 0, max: 600, step: 10',
+    'block.description.show_thumbnail' => 'Show or hide content fields without the need to delete the content itself.',
 
     /// Values
     /// block.value.*

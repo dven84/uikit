@@ -13,8 +13,39 @@
  * ]
  */
 return [
+    'show_title' => [
+        'label' => 'block.label.show_title',
+        'initValue' => true,
+        'type' => 'zaa-checkbox'
+    ],
+    'show_meta' => [
+        'label' => 'block.label.show_meta',
+        'initValue' => true,
+        'type' => 'zaa-checkbox'
+    ],
+    'show_content' => [
+        'label' => 'block.label.show_content',
+        'initValue' => true,
+        'type' => 'zaa-checkbox'
+    ],
+    'show_link' => [
+        'label' => 'block.label.show_link',
+        'initValue' => true,
+        'type' => 'zaa-checkbox'
+    ],
+    'show_thumbnail' => [
+        'label' => 'block.label.show_thumbnail',
+        'description' => 'block.description.show_thumbnail',
+        'initValue' => true,
+        'type' => 'zaa-checkbox'
+    ],
     'title' => [
         'label' => 'block.label.title',
+        'type' => 'zaa-text',
+        'initvalue' => ''
+    ],
+    'meta' => [
+        'label' => 'block.label.meta',
         'type' => 'zaa-text',
         'initvalue' => ''
     ],
@@ -30,6 +61,11 @@ return [
         'options' => [
             'no_filter' => false
         ]
+    ],
+    'image_alt' => [
+        'label' => 'block.label.image_alt',
+        'type' => 'zaa-text',
+        'initvalue' => ''
     ],
     'image_link' => [
         'label' => 'block.label.image',
@@ -101,6 +137,10 @@ return [
             ['value' => 'light', 'label' => 'block.value.light'],
             ['value' => 'dark', 'label' => 'block.value.dark'],
         ]
+    ],
+    'inverse_color' => [
+        'label' => 'block.label.inverse_color',
+        'type' => 'zaa-checkbox',
     ],
     'blend_mode' => [
         'label' => 'block.label.blend_mode',

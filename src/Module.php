@@ -22,7 +22,7 @@ class Module extends \luya\base\Module
     /**
      * @var array configs for store general field configs.
      */
-    private static $configs = [];
+    public static $configs = [];
 
     /**
      * @inheritdoc
@@ -43,39 +43,6 @@ class Module extends \luya\base\Module
             }
         }
 
-    }
-
-    /**
-     * If we could not found config, return default config
-     *
-     * @param string $name
-     * @param array $overwrites
-     * @return mixed
-     */
-    public static function config($name = "", $overwrites = [])
-    {
-        $config = Uikit::element($name, self::$configs, ['var' => $name, 'label' => $name, 'type' => 'zaa-text']);
-
-        if(!Uikit::element('var', $config)) {
-            $config['var'] = $name;
-        }
-
-        // Overwrite
-        if(count($overwrites)) $config = array_merge($config, $overwrites);
-
-        $config['label'] = self::t(Uikit::element('label', $config, ''));
-        $config['placeholder'] = self::t(Uikit::element('placeholder', $config, ''));
-        $options = Uikit::element('options', $config);
-        if(is_array($options) && count($options)) {
-            foreach ($options as $key => $option) {
-                if(is_array($option)) {
-                    $options[$key]['label'] = self::t(Uikit::element('label', $option, ''));
-                    $options[$key]['placeholder'] = self::t(Uikit::element('placeholder', $option, ''));
-                }
-            }
-            $config['options'] = $options;
-        }
-        return $config;
     }
 
     /**

@@ -4,14 +4,14 @@ namespace trk\uikit\blocks;
 
 use luya\TagParser;
 use trk\uikit\BaseUikitBlock;
-use luya\cms\frontend\blockgroups\TextGroup;
+use luya\cms\frontend\blockgroups\MediaGroup;
 
 /**
- * Alert Block.
+ * Text Block.
  *
  * @author Iskender TOTOĞLU <iskender@altivebir.com>
  */
-final class AlertBlock extends BaseUikitBlock
+final class SlideshowBlock extends BaseUikitBlock
 {
     /**
      * @inheritdoc
@@ -23,7 +23,7 @@ final class AlertBlock extends BaseUikitBlock
      */
     public function blockGroup()
     {
-        return TextGroup::class;
+        return MediaGroup::class;
     }
 
     /**
@@ -31,7 +31,7 @@ final class AlertBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return $this->t('block.title.alert');
+        return $this->t('block.title.slideshow');
     }
 
     /**
@@ -39,7 +39,7 @@ final class AlertBlock extends BaseUikitBlock
      */
     public function icon()
     {
-        return 'warning';
+        return 'burst_mode';
     }
 
     /**
@@ -49,20 +49,29 @@ final class AlertBlock extends BaseUikitBlock
     {
         return [
             'vars' => [
-                ['var' => 'title', 'label' => $this->t('block.label.title'), 'type' => 'zaa-text'],
-                ['var' => 'content', 'label' => $this->t('block.label.content'), 'type' => 'zaa-wysiwyg'],
+                // Slides
+                ['var' => 'items', 'label' => $this->t('block.label.items'), 'type' => self::TYPE_MULTIPLE_INPUTS, 'options' => [
+                    $this->getConfig('image'),
+                    $this->getConfig('image_alt'),
+                    $this->getConfig('title'),
+                    $this->getConfig('meta'),
+                    $this->getConfig('content'),
+                    $this->getConfig('link'),
+                    $this->getConfig('text_color'),
+                    $this->getConfig('inverse_color')
+                ]],
+                // Show options
+                $this->getConfig('show_title'),
+                $this->getConfig('show_meta'),
+                $this->getConfig('show_content'),
+                $this->getConfig('show_link'),
+                $this->getConfig('show_thumbnail')
             ],
             'cfgs' => [
-                // Alert
-                ['var' => 'alert_style', 'label' => $this->t('block.label.style'), 'type' => 'zaa-select', 'initvalue' => '', 'options' => [
-                    ['value' => '', 'label' => $this->t('block.value.default')],
-                    ['value' => 'primary', 'label' => $this->t('block.value.primary')],
-                    ['value' => 'success', 'label' => $this->t('block.value.success')],
-                    ['value' => 'warning', 'label' => $this->t('block.value.warning')],
-                    ['value' => 'danger', 'label' => $this->t('block.value.danger')],
-                ]],
-                ['var' => 'alert_size', 'label' => $this->t('block.label.larger_padding'), 'type' => 'zaa-checkbox'],
                 // General
+                $this->getConfig('text_align'),
+                $this->getConfig('text_align_breakpoint'),
+                $this->getConfig('text_align_fallback'),
                 $this->getConfig('maxwidth'),
                 $this->getConfig('maxwidth_align'),
                 $this->getConfig('maxwidth_breakpoint'),
@@ -97,9 +106,8 @@ final class AlertBlock extends BaseUikitBlock
      */
     public function extraVars()
     {
-        return [
-            'text' => $this->getText(),
-        ];
+        $this->extraValues['text'] = $this->getText();
+        return parent::extraVars();
     }
     
     /**
@@ -107,6 +115,6 @@ final class AlertBlock extends BaseUikitBlock
      */
     public function admin()
     {
-        return '{% if vars.content is not empty %}<div>{% if vars.title is not empty %}<h3>{{ vars.title }}</h3>{% endif %}<div>{{ vars.content }}</div></div>{% else %}<span class="block__empty-text">' . $this->t('block.description.no_content') . '</span>{% endif %}';
+        return '{% if vars.content is not empty %}<div>{{ vars.content }}</div>{% else %}<span class="block__empty-text">' . $this->t('block.description.no_content') . '</span>{% endif %}';
     }
 }

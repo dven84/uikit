@@ -2,11 +2,10 @@
 
 namespace trk\uikit\blocks;
 
-use trk\uikit\Module;
 use trk\uikit\BaseUikitBlock;
-use luya\cms\frontend\blockgroups\LayoutGroup;
-use luya\cms\helpers\BlockHelper;
 use trk\uikit\Uikit;
+use luya\cms\helpers\BlockHelper;
+use luya\cms\frontend\blockgroups\LayoutGroup;
 
 /**
  * Fixed Inner 2-1-2 Layout
@@ -108,7 +107,7 @@ final class LayoutUikitBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return Module::t('block.label.layout');
+        return $this->t('block.label.layout');
     }
 
     /**
@@ -127,13 +126,13 @@ final class LayoutUikitBlock extends BaseUikitBlock
     public function getLayouts() {
         $var = [
             'var' => 'layout',
-            'label' => Module::t('block.label.layout'),
+            'label' => $this->t('block.label.layout'),
             'initValue' => $this->defaultLayout,
             'type' => self::TYPE_SELECT,
             'options' => []
         ];
         foreach ($this->layouts as $name => $layout) {
-            $var['options'][] = ['value' => $name, 'label' => Module::t($layout['label'])];
+            $var['options'][] = ['value' => $name, 'label' => $this->t($layout['label'])];
         }
         return $var;
     }
@@ -186,82 +185,82 @@ final class LayoutUikitBlock extends BaseUikitBlock
      *
      * @return array
      */
-    public function getConfigs() {
+    public function getCfgFields() {
         $configs = [];
         $layout = $this->getLayout();
 
         foreach ($layout['cols'] as $name => $width) {
             // Style
             $configs[] = [
-                'var' => $name . 'style', 'label' => self::t('block.label.style', $name), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
-                    ['value' => '', 'label' => Module::t('block.value.none')],
-                    ['value' => 'default', 'label' => Module::t('block.value.default')],
-                    ['value' => 'muted', 'label' => Module::t('block.value.muted')],
-                    ['value' => 'primary', 'label' => Module::t('block.value.primary')],
-                    ['value' => 'secondary', 'label' => Module::t('block.value.secondary')]
+                'var' => $name . 'style', 'label' => $this->translation('block.label.style', $name), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
+                    ['value' => '', 'label' => $this->t('block.value.none')],
+                    ['value' => 'default', 'label' => $this->t('block.value.default')],
+                    ['value' => 'muted', 'label' => $this->t('block.value.muted')],
+                    ['value' => 'primary', 'label' => $this->t('block.value.primary')],
+                    ['value' => 'secondary', 'label' => $this->t('block.value.secondary')]
                 ]
             ];
             // Image
             $configs[] = [
                 'var' => $name . 'image',
-                'label' => self::t('block.label.image', $name),
+                'label' => $this->translation('block.label.image', $name),
                 'type' => self::TYPE_IMAGEUPLOAD,
                 'options' => ['no_filter' => false]
             ];
             // Image Width
-            $configs[] = Module::config('width', ['var' => $name . 'image_width']);
+            $configs[] = $this->getConfig('width', ['var' => $name . 'image_width']);
             // Image Height
-            $configs[] = Module::config('height', ['var' => $name . 'image_height']);
+            $configs[] = $this->getConfig('height', ['var' => $name . 'image_height']);
             // Image Size
-            $configs[] = Module::config('image_size', ['var' => $name . 'image_size']);
+            $configs[] = $this->getConfig('image_size', ['var' => $name . 'image_size']);
             // Image Position
-            $configs[] = Module::config('image_position', ['var' => $name . 'image_position', 'initValue' => 'center-center']);
+            $configs[] = $this->getConfig('image_position', ['var' => $name . 'image_position', 'initValue' => 'center-center']);
             // Image Effect
-            $configs[] = Module::config('image_effect', [
+            $configs[] = $this->getConfig('image_effect', [
                 'var' => $name . 'image_effect',
                 'initValue' => '',
                 'options' => [
-                    ['value' => '', 'label' => Module::t('block.value.none')],
-                    ['value' => 'parallax', 'label' => Module::t('block.value.parallax')],
-                    ['value' => 'fixed', 'label' => Module::t('block.value.fixed')]
+                    ['value' => '', 'label' => $this->t('block.value.none')],
+                    ['value' => 'parallax', 'label' => $this->t('block.value.parallax')],
+                    ['value' => 'fixed', 'label' => $this->t('block.value.fixed')]
                 ]
             ]);
             // Parallax Settings
-            $configs[] = Module::config('parallax_x_start', ['var' => $name . 'image_parallax_bgx_start']);
-            $configs[] = Module::config('parallax_x_end', ['var' => $name . 'image_parallax_bgx_end']);
-            $configs[] = Module::config('parallax_y_start', ['var' => $name . 'image_parallax_bgy_start']);
-            $configs[] = Module::config('parallax_y_end', ['var' => $name . 'image_parallax_bgy_end']);
-            $configs[] = Module::config('breakpoint', ['var' => $name . 'image_parallax_breakpoint']);
+            $configs[] = $this->getConfig('parallax_x_start', ['var' => $name . 'image_parallax_bgx_start']);
+            $configs[] = $this->getConfig('parallax_x_end', ['var' => $name . 'image_parallax_bgx_end']);
+            $configs[] = $this->getConfig('parallax_y_start', ['var' => $name . 'image_parallax_bgy_start']);
+            $configs[] = $this->getConfig('parallax_y_end', ['var' => $name . 'image_parallax_bgy_end']);
+            $configs[] = $this->getConfig('breakpoint', ['var' => $name . 'image_parallax_breakpoint']);
             // Breakpoint
-            $configs[] = Module::config('breakpoint', ['var' => $name . 'image_visibility']);
+            $configs[] = $this->getConfig('breakpoint', ['var' => $name . 'image_visibility']);
             // Media Background
-            $configs[] = Module::config('color', ['var' => $name . 'media_background', 'label' => 'block.label.background_color']);
+            $configs[] = $this->getConfig('color', ['var' => $name . 'media_background', 'label' => 'block.label.background_color']);
             // Media Blend Mode
-            $configs[] = Module::config('blend_mode', ['var' => $name . 'media_blend_mode', 'label' => self::t('block.label.blend_mode', $name)]);
+            $configs[] = $this->getConfig('blend_mode', ['var' => $name . 'media_blend_mode', 'label' => $this->translation('block.label.blend_mode', $name)]);
             // Overlay Color
-            $configs[] = Module::config('color', ['var' => $name . 'media_overlay', 'label' => self::t('block.label.overlay_color', $name)]);
+            $configs[] = $this->getConfig('color', ['var' => $name . 'media_overlay', 'label' => $this->translation('block.label.overlay_color', $name)]);
             // Preserve Color
             $configs[] = [
                 'var' => $name . 'preserve_color',
-                'label' => self::t('block.label.preserve_color', $name),
+                'label' => $this->translation('block.label.preserve_color', $name),
                 'type' => self::TYPE_CHECKBOX
             ];
             // Text Color
             $configs[] = [
                 'var' => $name . 'text_color',
-                'label' => self::t('block.label.text_color', $name),
+                'label' => $this->translation('block.label.text_color', $name),
                 'initValue' => '',
                 'type' => self::TYPE_SELECT,
                 'options' => [
-                    ['value' => '', 'label' => Module::t('block.value.default')],
-                    ['value' => 'light', 'label' => Module::t('block.value.light')],
-                    ['value' => 'dark', 'label' => Module::t('block.value.dark')]
+                    ['value' => '', 'label' => $this->t('block.value.default')],
+                    ['value' => 'light', 'label' => $this->t('block.value.light')],
+                    ['value' => 'dark', 'label' => $this->t('block.value.dark')]
                 ]
             ];
             // Padding
-            $configs[] = Module::config('padding', ['var' => $name . 'padding', 'label' => self::t('block.label.padding', $name)]);
+            $configs[] = $this->getConfig('padding', ['var' => $name . 'padding', 'label' => $this->translation('block.label.padding', $name)]);
             // Custom CSS
-            $configs[] = Module::config('css', ['var' => $name . 'css', 'label' => self::t('block.label.css', $name)]);
+            $configs[] = $this->getConfig('css', ['var' => $name . 'css', 'label' => $this->translation('block.label.css', $name)]);
         }
 
         return $configs;
@@ -305,40 +304,40 @@ final class LayoutUikitBlock extends BaseUikitBlock
         return [
             'vars' => [
                 $this->getLayouts(),
-                ['var' => 'fixed_width', 'label' => Module::t('block.label.fixed_width'), 'initValue' => 'large', 'type' => self::TYPE_SELECT, 'options' => [
-                    ['value' => 'small', 'label' => Module::t('block.value.small')],
-                    ['value' => 'medium', 'label' => Module::t('block.value.medium')],
-                    ['value' => 'large', 'label' => Module::t('block.value.large')],
-                    ['value' => 'xlarge', 'label' => Module::t('block.value.x_large')],
-                    ['value' => 'xxlarge', 'label' => Module::t('block.value.xx_large')],
-                    ['value' => 'auto', 'label' => Module::t('block.value.auto')],
+                ['var' => 'fixed_width', 'label' => $this->t('block.label.fixed_width'), 'initValue' => 'large', 'type' => self::TYPE_SELECT, 'options' => [
+                    ['value' => 'small', 'label' => $this->t('block.value.small')],
+                    ['value' => 'medium', 'label' => $this->t('block.value.medium')],
+                    ['value' => 'large', 'label' => $this->t('block.value.large')],
+                    ['value' => 'xlarge', 'label' => $this->t('block.value.x_large')],
+                    ['value' => 'xxlarge', 'label' => $this->t('block.value.xx_large')],
+                    ['value' => 'auto', 'label' => $this->t('block.value.auto')],
                 ]],
-                ['var' => 'gutter', 'label' => Module::t('block.label.gutter'), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
-                    ['value' => 'small', 'label' => Module::t('block.value.small')],
-                    ['value' => 'medium', 'label' => Module::t('block.value.medium')],
-                    ['value' => '', 'label' => Module::t('block.value.default')],
-                    ['value' => 'large', 'label' => Module::t('block.value.large')],
-                    ['value' => 'collapse', 'label' => Module::t('block.value.collapse')],
+                ['var' => 'gutter', 'label' => $this->t('block.label.gutter'), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
+                    ['value' => 'small', 'label' => $this->t('block.value.small')],
+                    ['value' => 'medium', 'label' => $this->t('block.value.medium')],
+                    ['value' => '', 'label' => $this->t('block.value.default')],
+                    ['value' => 'large', 'label' => $this->t('block.value.large')],
+                    ['value' => 'collapse', 'label' => $this->t('block.value.collapse')],
                 ]],
-                ['var' => 'divider', 'label' => Module::t('block.label.grid_display_dividers'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
-                ['var' => 'width', 'label' => Module::t('block.label.max_width'), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
-                    ['value' => 'default', 'label' => Module::t('block.value.default')],
-                    ['value' => 'small', 'label' => Module::t('block.value.small')],
-                    ['value' => 'large', 'label' => Module::t('block.value.large')],
-                    ['value' => 'expand', 'label' => Module::t('block.value.expand')],
-                    ['value' => 'none', 'label' => Module::t('block.value.none')],
+                ['var' => 'divider', 'label' => $this->t('block.label.grid_display_dividers'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
+                ['var' => 'width', 'label' => $this->t('block.label.max_width'), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
+                    ['value' => 'default', 'label' => $this->t('block.value.default')],
+                    ['value' => 'small', 'label' => $this->t('block.value.small')],
+                    ['value' => 'large', 'label' => $this->t('block.value.large')],
+                    ['value' => 'expand', 'label' => $this->t('block.value.expand')],
+                    ['value' => 'none', 'label' => $this->t('block.value.none')],
                 ]],
-                Module::config('margin'),
-                Module::config('margin_remove_top'),
-                Module::config('margin_remove_bottom'),
-                ['var' => 'vertical_align', 'label' => Module::t('block.label.vertical_alignment'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
-                ['var' => 'match', 'label' => Module::t('block.label.match_height'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
-                Module::config('breakpoint', ['initValue' => 'm']),
-                ['var' => 'order_last', 'label' => Module::t('block.label.order_last'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
-                Module::config('id'),
-                Module::config('class')
+                $this->getConfig('margin'),
+                $this->getConfig('margin_remove_top'),
+                $this->getConfig('margin_remove_bottom'),
+                ['var' => 'vertical_align', 'label' => $this->t('block.label.vertical_alignment'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
+                ['var' => 'match', 'label' => $this->t('block.label.match_height'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
+                $this->getConfig('breakpoint', ['initValue' => 'm']),
+                ['var' => 'order_last', 'label' => $this->t('block.label.order_last'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
+                $this->getConfig('id'),
+                $this->getConfig('class')
             ],
-            'cfgs' => $this->getConfigs(),
+            'cfgs' => $this->getCfgFields(),
             'placeholders' => [
                 $placeholders['placeholders']
             ],
@@ -398,14 +397,14 @@ final class LayoutUikitBlock extends BaseUikitBlock
     }
 
     /**
-     * Translations for Columns
+     * Return translation with column name
      *
-     * @param string $message
+     * @param $message
      * @param string $column
      * @return string
      */
-    public static function t($message, $column = "") {
-        return Module::t($message) . ' (' . $column . ')';
+    public function translation($message, $column = "") {
+        return $this->t($message) . ' (' . $column . ')';
     }
 
     /**

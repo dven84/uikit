@@ -7,6 +7,7 @@ UIKIT 3 Blocks:
 + Headline
 + Image
 + Section
++ Slideshow
 + Row (With Columns)
 + Quotation
 + Text
