@@ -1,11 +1,12 @@
+
 <?php
 
 namespace trk\uikit;
 
 /**
- * Uikit 3 CDN Asset Bundle.
+ * U,kit CDN Asset Bundle.
  *
- * @author Iskender TOTOĞLU <iskender@altivebir.com>
+ * @author İskender TOTOĞLU <iskender@altivebir.com>
  */
 class UikitAsset extends \yii\web\AssetBundle
 {

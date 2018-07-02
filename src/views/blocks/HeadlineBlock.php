@@ -3,44 +3,44 @@
 use trk\uikit\Uikit;
 
 /**
- * @var $this \luya\cms\base\PhpBlockView
- *
+ * @var $this object
+ * @var $data array
  */
 
-$link = Uikit::link($this->varValue('link'), $this->extraValue('link'));
+$id    = $data['id'];
+$class = $data['class'];
+$attrs = $data['attrs'];
+$attrs_link = [];
 
-if(isset($configs) && $configs['content']):
+// Style
+$class[] = $data['title_style'] ? "uk-{$data['title_style']}" : '';
 
-    $id    = $configs['id'];
-    $class = $configs['class'];
-    $attrs = $configs['attrs'];
+// Decoration
+$class[] = $data['title_decoration'] ? "uk-heading-{$data['title_decoration']}" : '';
 
-    $attrs_link = [];
+// Color
+$class[] = $data['title_color'] && $data['title_color'] != 'background' ? "uk-text-{$data['title_color']}" : '';
 
-    // Set content
-    $content = $configs['content'];
-    // Style
-    $class[] = $configs['title_style'] ? 'uk-' . $configs['title_style'] : '';
-    // Decoration
-    $class[] = $configs['title_decoration'] ? 'uk-heading-' . $configs['title_decoration'] : '';
-    // Color
-    $class[] = $configs['title_color'] && $configs['title_color'] != 'background' ? 'uk-text-' . $configs['title_color'] : '';
-    // Link
-    if ($link['href']) {
-        $attrs_link['target'] = $link['target'] ? '_blank' : '';
-        $attrs_link['data-uk-scroll'] = strpos($link['href'], '#') === 0;
-        $attrs_link['class'][] = $configs['link_style'] ? 'uk-link-heading' : 'uk-link-reset';
-        $content = Uikit::link_tag($content, $link['href'], $attrs_link);
-    }
-    $content = strtr($content, array("<p>" => "", "</p>" => "", "<div>" => "", "</div>" => ""));
-    ?>
-    <<?= $configs['title_element'] . Uikit::attrs(compact('id', 'class'), $attrs) ?>>
-    <?php if ($configs['title_color'] == 'background') : ?>
-        <span class="uk-text-background"><?= $content ?></span>
-    <?php elseif ($configs['title_decoration'] == 'line') : ?>
-        <span><?= $content ?></span>
-    <?php else : ?>
-        <?= $content ?>
-    <?php endif ?>
-    </<?= $configs['title_element'] ?>>
-<?php endif; ?>
+// Link
+if ($data['link']) {
+
+    $attrs_link['target'] = $data['link_target'] ? '_blank' : '';
+    $attrs_link['uk-scroll'] = strpos($data['link'], '#') === 0;
+    $attrs_link['class'][] = 'el-link';
+    $attrs_link['class'][] = $data['link_style'] ? 'uk-link-heading' : 'uk-link-reset';
+
+    $data['content'] = Uikit::link($data['content'], $data['link'], $attrs_link);
+
+}
+
+?>
+
+<<?= $data['title_element'] . Uikit::attrs(compact('id', 'class'), $attrs) ?>>
+<?php if ($data['title_color'] == 'background') : ?>
+    <span class="uk-text-background"><?= $data['content'] ?></span>
+<?php elseif ($data['title_decoration'] == 'line') : ?>
+    <span><?= $data['content'] ?></span>
+<?php else : ?>
+    <?= $data['content'] ?>
+<?php endif ?>
+</<?= $data['title_element'] ?>>

@@ -17,7 +17,15 @@ class Module extends \luya\base\Module
     /**
      * @var array $includes file list for configs
      */
-    protected static $includes = ['general', 'parallax'];
+    protected static $includes = ['general', 'title', 'meta', 'content', 'parallax'];
+
+    protected static $translations = [
+        'uikit' => 'uikit.php',
+        'uikit.label' => 'uikit.label.php',
+        'uikit.description' => 'uikit.description.php',
+        'uikit.placeholder' => 'uikit.placeholder.php',
+        'uikit.value' => 'uikit.value.php'
+    ];
 
     /**
      * @var array configs for store general field configs.
@@ -31,9 +39,7 @@ class Module extends \luya\base\Module
     {
         Yii::setAlias('@uikit', static::staticBasePath());
 
-        self::registerTranslation('uikit*', static::staticBasePath() . '/messages', [
-            'uikit' => 'uikit.php'
-        ]);
+        self::registerTranslation('uikit*', static::staticBasePath() . '/messages', self::$translations);
 
         $path = __DIR__ . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR;
         foreach (self::$includes as $include) {
@@ -46,39 +52,19 @@ class Module extends \luya\base\Module
     }
 
     /**
-     * Get group of configs
+     * Return translations
      *
-     * @param string $name
+     * @param string $prefix
+     * @param string $term
+     * @param array $params
      * @return mixed
      */
-    public static function configs($name = "") {
-        $configs = Uikit::element($name, self::$configs, ['var' => $name, 'label' => $name, 'type' => 'zaa-text']);
-        foreach ($configs as $key => $config) {
-            if(is_array($config)) {
-                $configs[$key]['label'] = self::t(Uikit::element('label', $config, ''));
-                $configs[$key]['placeholder'] = self::t(Uikit::element('placeholder', $config, ''));
-                $options = Uikit::element('options', $config, []);
-                if(count($options)) {
-                    foreach ($options as $option_key => $option) {
-                        $options[$option_key]['label'] = self::t(Uikit::element('label', $option, ''));
-                        $options[$option_key]['placeholder'] = self::t(Uikit::element('placeholder', $option, ''));
-                    }
-                    $configs[$key]['options'] = $options;
-                }
-            }
-        }
-        return $configs;
-    }
-
-    /**
-     * Translations
-     *
-     * @param string $message
-     * @param array $params
-     * @return string
-     */
-    public static function t($message, array $params = [])
+    public static function t($prefix = "", $term = "", array $params = [])
     {
-        return parent::baseT('uikit', $message, $params);
+        $translationTerm = $term ? $term : $prefix;
+        if(!$term) {
+            $prefix = !$term ? 'uikit' : 'uikit.' . $prefix;
+        }
+        return parent::baseT($prefix, $translationTerm, $params);
     }
 }

@@ -2,9 +2,6 @@
 
 namespace trk\uikit;
 
-use luya\helpers\Url;
-use Yii;
-
 class Uikit
 {
     /**
@@ -186,7 +183,8 @@ class Uikit
      * @param string $prefix
      * @return string
      */
-    protected static function unique($prefix = '') {
+    public static function unique($prefix = '') {
+        $prefix = $prefix ? $prefix . "-" : "";
         return $prefix . substr(uniqid(), -3);
     }
 
@@ -226,34 +224,6 @@ class Uikit
     }
 
     /**
-     * Return link
-     *
-     * @param $object
-     * @param array $link
-     * @return array
-     */
-    public static function link($link, $object) {
-
-        if(!is_array($link)) $link = [];
-
-        $params = [
-            'type' => '',
-            'value' => '',
-            'target' => '',
-            'href' => '',
-        ];
-
-        $params['type'] = self::element('type', $link, '');
-        $params['value'] = self::element('value', $link, '');
-        if($params['value']) {
-            $params['href'] = $object->getHref();
-            $params['target'] = $object->getTarget();
-        }
-
-        return $params;
-    }
-
-    /**
      * Render tag attributes
      *
      * @param array $attributes
@@ -288,6 +258,30 @@ class Uikit
     }
 
     /**
+     * Gets the picked values from the given array.
+     *
+     * @param  array        $array
+     * @param  array|string $keys
+     * @return array
+     */
+    public static function pick($array, $keys)
+    {
+        return array_intersect_key($array, array_flip((array) $keys));
+    }
+
+    /**
+     * Gets items as JSON string.
+     *
+     * @param array $array
+     * @param int $options
+     * @return string
+     */
+    public static function json(array $array, $options = 0)
+    {
+        return json_encode($array, $options);
+    }
+
+    /**
      * Renders a link tag.
      *
      * @param  string $title
@@ -295,7 +289,7 @@ class Uikit
      * @param  array  $attrs
      * @return string
      */
-    public static function link_tag($title, $url = null, array $attrs = []) {
+    public static function link($title, $url = null, array $attrs = []) {
         return "<a" . self::attrs(['href' => $url], $attrs) . ">{$title}</a>";
     }
 

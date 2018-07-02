@@ -1,105 +1,125 @@
 <?php
+
 use trk\uikit\Uikit;
+
 /**
  * @var $this \luya\cms\base\PhpBlockView
  *
  */
+Uikit::trace($data);
 
-$image = $this->extraValue('image') && $this->extraValue('image')->source ? $this->extraValue('image')->source : '';
-$link = Uikit::link($this->varValue('link'), $this->extraValue('link'));
+$id    = $data['id'];
+$class = $data['class'];
+$attrs = $data['attrs'];
+$attrs_image = [];
+$attrs_link = [];
+$lightbox = '';
+$attrs_lightbox = [];
+$connect_id = 'js-' . substr(uniqid(), -3);
 
-if(isset($configs) && $image):
+// Image
+$attrs_image['class'][] = 'el-image';
+$attrs_image['class'][] = $data['image_border'] ? "uk-border-{$data['image_border']}" : '';
+$attrs_image['class'][] = $data['image_box_shadow'] ? "uk-box-shadow-{$data['image_box_shadow']}" : '';
+$attrs_image['class'][] = $data['link'] && $data['image_hover_box_shadow'] ? "uk-box-shadow-hover-{$data['image_hover_box_shadow']}" : '';
+$attrs_image['alt'] = $data['image_alt'];
 
-    $id    = $configs['id'];
-    $class = $configs['class'];
-    $attrs = $configs['attrs'];
+if (Uikit::isImage($data['image']) == 'gif') {
+    $attrs_image['uk-gif'] = true;
+}
 
-    $attrs_image = [];
-    $attrs_link = [];
-    $lightbox = '';
-    $attrs_lightbox = [];
-    $connect_id = 'js-' . substr(uniqid(), -3);
+if (Uikit::isImage($data['image']) == 'svg') {
+    $data['image'] = Uikit::image($data['image'], array_merge($attrs_image, ['width' => $data['image_width'], 'height' => $data['image_height']]));
+} elseif ($data['image_width'] || $data['image_height']) {
+    $data['image'] = Uikit::image([$data['image'], 'thumbnail' => [$data['image_width'], $data['image_height']], 'sizes' => '80%,200%'], $attrs_image);
+} else {
+    $data['image'] = Uikit::image($data['image'], $attrs_image);
+}
 
-    // Image
-    $attrs_image['class'][] = $configs['image_border'] ? "uk-border-{$configs['image_border']}" : '';
-    $attrs_image['class'][] = $configs['image_box_shadow'] ? "uk-box-shadow-{$configs['image_box_shadow']}" : '';
-    $attrs_image['class'][] = is_array($link) && array_key_exists('value', $link) && $link['value'] && $configs['image_hover_box_shadow'] ? "uk-box-shadow-hover-{$configs['image_hover_box_shadow']}" : '';
-    $attrs_image['alt'] = $configs['image_alt'];
+// Link and Lightbox
+if ($data['link_target'] == 'modal') {
 
-    if (Uikit::isImage($image) == 'gif') {
-        $attrs_image['data-uk-gif'] = true;
-    }
+    if (Uikit::isImage($data['link'])) {
 
-    if (Uikit::isImage($image) == 'svg') {
-        $image = Uikit::image($image, array_merge($attrs_image, ['width' => $configs['image_width'], 'height' => $configs['image_height']]));
-    } elseif ($configs['image_width'] || $configs['image_height']) {
-        $image = Uikit::image([$image, 'thumbnail' => [$configs['image_width'], $configs['image_height']], 'sizes' => '80%,200%'], $attrs_image);
-    } else {
-        $image = Uikit::image($image, $attrs_image);
-    }
+        $attrs_lightbox['alt'] = '';
 
-    // Link and Lightbox
-    if ($link['value'] && $configs['link_target'] == 'modal') {
-        if (Uikit::isImage($link['href'])) {
-            $attrs_lightbox['alt'] = '';
-            if (Uikit::isImage($link['href']) == 'svg') {
-                $lightbox = Uikit::image($link['href'], array_merge($attrs_lightbox, ['width' => $configs['lightbox_width'], 'height' => $configs['lightbox_height']]));
-            } elseif ($configs['lightbox_width'] || $configs['lightbox_height']) {
-                $lightbox = Uikit::image([$link['href'], 'thumbnail' => [$configs['lightbox_width'], $configs['lightbox_height']], 'sizes' => '80%,200%'], $attrs_lightbox);
-            } else {
-                $lightbox = Uikit::image($link['href'], $attrs_lightbox);
-            }
-        } elseif ($iframe = Uikit::iframeVideo($link['href']) or Uikit::isVideo($link['href'])) {
-            $attrs_lightbox['width'] = $configs['lightbox_width'];
-            $attrs_lightbox['height'] = $configs['lightbox_height'];
-            $attrs_lightbox['data-uk-video'] = true;
-            if ($iframe) {
-                $attrs_lightbox['src'] = $iframe;
-                $attrs_lightbox['frameborder'] = 0;
-                $lightbox = "<iframe" . Uikit::attrs($attrs_lightbox) . "></iframe>";
-            } else {
-                $attrs_lightbox['src'] = $link['href'];
-                $attrs_lightbox['controls'] = true;
-                $lightbox = "<video" . Uikit::attrs($attrs_lightbox) . "></video>";
-            }
+        if (Uikit::isImage($data['link']) == 'svg') {
+            $lightbox = Uikit::image($data['link'], array_merge($attrs_lightbox, ['width' => $data['lightbox_width'], 'height' => $data['lightbox_height']]));
+        } elseif ($data['lightbox_width'] || $data['lightbox_height']) {
+            $lightbox = Uikit::image([$data['link'], 'thumbnail' => [$data['lightbox_width'], $data['lightbox_height']], 'sizes' => '80%,200%'], $attrs_lightbox);
         } else {
-            $attrs_lightbox['src'] = $link['href'];
-            $attrs_lightbox['width'] = $configs['lightbox_width'];
-            $attrs_lightbox['height'] = $configs['lightbox_height'];
+            $lightbox = Uikit::image($data['link'], $attrs_lightbox);
+        }
+
+    } elseif ($iframe = Uikit::iframeVideo($data['link']) or Uikit::isVideo($data['link'])) {
+
+        $attrs_lightbox['width'] = $data['lightbox_width'];
+        $attrs_lightbox['height'] = $data['lightbox_height'];
+        $attrs_lightbox['uk-video'] = true;
+
+        if ($iframe) {
+
+            $attrs_lightbox['src'] = $iframe;
             $attrs_lightbox['frameborder'] = 0;
+
             $lightbox = "<iframe" . Uikit::attrs($attrs_lightbox) . "></iframe>";
-        }
-        $attrs_link['data-uk-toggle'] = true;
-        $link['href'] = "#{$connect_id}";
-    } else {
-        $attrs_link['target'] = $link['target'] == '_blank' ? '_blank' : '';
-        $attrs_link['data-uk-scroll'] = strpos($link['href'], '#') === 0;
-    }
 
-    // Box-shadow bottom
-    if ($configs['image_box_shadow_bottom']) {
-        if ($link['value']) {
-            $attrs_link['class'][] = 'uk-box-shadow-bottom';
         } else {
-            $image = "<div class=\"uk-box-shadow-bottom\">{$image}</div>";
+
+            $attrs_lightbox['src'] = $data['link'];
+            $attrs_lightbox['controls'] = true;
+
+            $lightbox = "<video" .Uikit::attrs($attrs_lightbox) . "></video>";
+
         }
+
+    } else {
+
+        $attrs_lightbox['src'] = $data['link'];
+        $attrs_lightbox['width'] = $data['lightbox_width'];
+        $attrs_lightbox['height'] = $data['lightbox_height'];
+        $attrs_lightbox['frameborder'] = 0;
+
+        $lightbox = "<iframe" . Uikit::attrs($attrs_lightbox) . "></iframe>";
     }
 
-    ?>
-    <div<?= Uikit::attrs(compact('id', 'class'), $attrs) ?>>
-        <?php if ($link['href']) : ?>
-            <?= Uikit::link_tag($image, $link['href'], $attrs_link) ?>
-        <?php else : ?>
-            <?= $image ?>
-        <?php endif ?>
-        <?php if ($lightbox && $configs['link_target'] == 'modal') : ?>
-            <?php // uk-flex-top is needed to make vertical margin work for IE11 ?>
-            <div id="<?= $connect_id ?>" class="uk-flex-top" data-uk-modal="">
-                <div class="uk-modal-dialog uk-width-auto uk-margin-auto-vertical">
-                    <button class="uk-modal-close-outside" type="button" data-uk-close=""></button>
-                    <?= $lightbox ?>
-                </div>
+    $attrs_link['uk-toggle'] = true;
+    $data['link'] = "#{$connect_id}";
+
+} else {
+    $attrs_link['target'] = $data['link_target'] == 'blank' ? '_blank' : '';
+    $attrs_link['uk-scroll'] = strpos($data['link'], '#') === 0;
+}
+
+$attrs_link['class'][] = 'el-link';
+
+// Box-shadow bottom
+if ($data['image_box_shadow_bottom']) {
+    if ($data['link']) {
+        $attrs_link['class'][] = 'uk-box-shadow-bottom';
+    } else {
+        $data['image'] = "<div class=\"uk-box-shadow-bottom\">{$data['image']}</div>";
+    }
+}
+
+?>
+
+<div<?= Uikit::attrs(compact('id', 'class'), $attrs) ?>>
+
+    <?php if ($data['link']) : ?>
+        <?= Uikit::link($data['image'], $data['link'], $attrs_link) ?>
+    <?php else : ?>
+        <?= $data['image'] ?>
+    <?php endif ?>
+
+    <?php if ($lightbox && $data['link_target'] == 'modal') : ?>
+        <?php // uk-flex-top is needed to make vertical margin work for IE11 ?>
+        <div id="<?= $connect_id ?>" class="uk-flex-top" uk-modal>
+            <div class="uk-modal-dialog uk-width-auto uk-margin-auto-vertical">
+                <button class="uk-modal-close-outside" type="button" uk-close></button>
+                <?= $lightbox ?>
             </div>
-        <?php endif ?>
-    </div>
-<?php endif; ?>
+        </div>
+    <?php endif ?>
+
+</div>

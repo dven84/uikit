@@ -2,8 +2,9 @@
 
 namespace trk\uikit\blocks;
 
-use luya\TagParser;
 use trk\uikit\BaseUikitBlock;
+use trk\uikit\Module;
+use luya\TagParser;
 use luya\cms\helpers\BlockHelper;
 use luya\cms\frontend\blockgroups\TextGroup;
 
@@ -17,7 +18,7 @@ final class QuotationBlock extends BaseUikitBlock
     /**
      * @inheritdoc
      */
-    public $cacheEnabled = true;
+    public $component = "quotation";
 
     /**
      * @inheritdoc
@@ -32,7 +33,7 @@ final class QuotationBlock extends BaseUikitBlock
      */
     public function name()
     {
-        return $this->t('block.title.quotation');
+        return Module::t('quotation');
     }
 
     /**
@@ -41,47 +42,6 @@ final class QuotationBlock extends BaseUikitBlock
     public function icon()
     {
         return 'format_quote';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function config()
-    {
-        return [
-            'vars' => [
-                $this->getConfig('content'),
-                ['var' => 'author', 'label' =>  $this->t('block.label.author'), 'type' => 'zaa-text'],
-                $this->getConfig('link', ['label' => 'block.label.author_link']),
-                $this->getConfig('title', ['var' => 'footer', 'label' => 'block.label.footer'])
-            ],
-            'cfgs' => [
-                // Link style
-                ['var' => 'link_style', 'label' => $this->t('block.label.style'), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
-                    ['value' => '', 'label' => $this->t('block.value.default')],
-                    ['value' => 'muted', 'label' => $this->t('block.value.muted')],
-                    ['value' => 'text', 'label' => $this->t('block.value.text')],
-                    ['value' => 'text', 'label' => $this->t('block.value.reset')]
-                ]],
-                // General
-                $this->getConfig('text_align'),
-                $this->getConfig('text_align_breakpoint'),
-                $this->getConfig('text_align_fallback'),
-                $this->getConfig('maxwidth'),
-                $this->getConfig('maxwidth_align'),
-                $this->getConfig('maxwidth_breakpoint'),
-                $this->getConfig('margin'),
-                $this->getConfig('margin_remove_top'),
-                $this->getConfig('margin_remove_bottom'),
-                $this->getConfig('animation'),
-                $this->getConfig('visibility'),
-                // Advanced
-                $this->getConfig('name'),
-                $this->getConfig('id'),
-                $this->getConfig('class'),
-                $this->getConfig('css')
-            ]
-        ];
     }
 
     /**
@@ -105,12 +65,28 @@ final class QuotationBlock extends BaseUikitBlock
         $this->extraValues['link'] = BlockHelper::linkObject($this->getVarValue('link'));
         return parent::extraVars();
     }
-    
+
+    /**
+     * @inheritdoc
+     */
+    public function frontend(array $params = array())
+    {
+        if($this->getVarValue('content')) {
+            return parent::frontend($params);
+        } else {
+            return "";
+        }
+    }
+
     /**
      * @inheritdoc
      */
     public function admin()
     {
-        return '{% if vars.content is not empty %}<div>{{ vars.content }}</div>{% else %}<span class="block__empty-text">' . $this->t('block.description.no_content') . '</span>{% endif %}';
+        if($this->getVarValue('content')) {
+            return $this->frontend();
+        } else {
+            return '<div><span class="block__empty-text">' . Module::t('no_content') . '</span></div>';
+        }
     }
 }

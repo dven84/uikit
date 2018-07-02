@@ -4,6 +4,7 @@ namespace trk\uikit\blocks;
 
 use trk\uikit\BaseUikitBlock;
 use trk\uikit\Uikit;
+use trk\uikit\Module;
 use luya\cms\helpers\BlockHelper;
 use luya\cms\frontend\blockgroups\LayoutGroup;
 
@@ -17,97 +18,100 @@ final class LayoutUikitBlock extends BaseUikitBlock
     /**
      * @inheritdoc
      */
-    public $isContainer = true;
+    protected $component = "row";
 
     /**
      * @var array $widths of row columns
      */
     public $layouts = [
         'whole' => [
-            'label' => 'block.value.whole',
+            'label' => 'whole',
             'cols' => ['first' => 12],
             'widths' => [['1-1']]
         ],
         'halves' => [
-            'label' => 'block.value.halves',
+            'label' => 'halves',
             'cols' => ['first' => 6, 'second' => 6],
             'widths' => [['expand'], ['expand']]
         ],
         'thirds' => [
-            'label' => 'block.value.thirds',
+            'label' => 'thirds',
             'cols' => ['first' => 4, 'second' => 4, 'third' => 4],
             'widths' => [['expand'], ['expand'], ['expand']]
         ],
         'quarters' => [
-            'label' => 'block.value.quarters',
+            'label' => 'quarters',
             'cols' => ['first' => 3, 'second' => 3, 'third' => 3, 'fourth' => 3],
             'widths' => [['fixed', '1-2'], ['fixed', '1-2'], ['fixed', '1-2'], ['fixed', '1-2']]
         ],
         'thirds-2-1' => [
-            'label' => 'block.value.thirds_2_1',
+            'label' => 'thirds_2_1',
             'cols' => ['first' => 7, 'second' => 5],
             'widths' => [['2-3'], ['expand']]
         ],
         'thirds-1-2' => [
-            'label' => 'block.value.thirds_1_2',
+            'label' => 'thirds_1_2',
             'cols' => ['first' => 5, 'second' => 7],
             'widths' => [['expand'], ['2-3']]
         ],
         'quarters-3-1' => [
-            'label' => 'block.value.quarters_3_1',
+            'label' => 'quarters_3_1',
             'cols' => ['first' => 8, 'second' => 4],
             'widths' => [['3-4'], ['expand']]
         ],
         'quarters-1-3' => [
-            'label' => 'block.value.quarters_1_3',
+            'label' => 'quarters_1_3',
             'cols' => ['first' => 4, 'second' => 8],
             'widths' => [['expand'], ['3-4']]
         ],
         'quarters-2-1-1' => [
-            'label' => 'block.value.quarters_2_1_1',
+            'label' => 'quarters_2_1_1',
             'cols' => ['first' => 6, 'second' => 3, 'third' => 3],
             'widths' => [['1-2'], ['expand'], ['expand']]
         ],
         'quarters-1-1-2' => [
-            'label' => 'block.value.quarters_1_1_2',
+            'label' => 'quarters_1_1_2',
             'cols' => ['first' => 3, 'second' => 3, 'third' => 6],
             'widths' => [['expand'], ['expand'], ['1-2']]
         ],
         'quarters-1-2-1' => [
-            'label' => 'block.value.quarters_1_2_1',
+            'label' => 'quarters_1_2_1',
             'cols' => ['first' => 3, 'second' => 6, 'third' => 3],
             'widths' => [['expand'], ['1-2'], ['expand']]
         ],
         'fixed-left' => [
-            'label' => 'block.value.fixed_left',
+            'label' => 'fixed_left',
             'cols' => ['first' => 4, 'second' => 8],
             'widths' => [['large'], ['expand']]
         ],
         'fixed-right' => [
-            'label' => 'block.value.fixed_right',
+            'label' => 'fixed_right',
             'cols' => ['first' => 8, 'second' => 4],
             'widths' => [['expand'], ['fixed']]
         ],
         'fixed-inner' => [
-            'label' => 'block.value.fixed_inner',
+            'label' => 'fixed_inner',
             'cols' => ['first' => 4, 'second' => 4, 'third' => 4],
             'widths' => [['expand'], ['fixed'], ['expand']]
         ],
         'fixed-outer' => [
-            'label' => 'block.value.fixed_outer',
+            'label' => 'fixed_outer',
             'cols' => ['first' => 4, 'second' => 4, 'third' => 4],
             'widths' => [['fixed'], ['expand'], ['fixed']]
         ]
     ];
 
-    public $defaultLayout = 'halves';
+    /**
+     * @inheritdoc
+     */
+    protected $defaultLayout = 'halves';
 
     /**
      * @inheritdoc
      */
     public function name()
     {
-        return $this->t('block.label.layout');
+        return Module::t('layout');
     }
 
     /**
@@ -119,22 +123,11 @@ final class LayoutUikitBlock extends BaseUikitBlock
     }
 
     /**
-     * Layout select list
-     *
-     * @return array
+     * @inheritdoc
      */
-    public function getLayouts() {
-        $var = [
-            'var' => 'layout',
-            'label' => $this->t('block.label.layout'),
-            'initValue' => $this->defaultLayout,
-            'type' => self::TYPE_SELECT,
-            'options' => []
-        ];
-        foreach ($this->layouts as $name => $layout) {
-            $var['options'][] = ['value' => $name, 'label' => $this->t($layout['label'])];
-        }
-        return $var;
+    public function blockGroup()
+    {
+        return LayoutGroup::class;
     }
 
     /**
@@ -165,134 +158,15 @@ final class LayoutUikitBlock extends BaseUikitBlock
      */
     public function getPlaceholders() {
         $layout = $this->getLayout();
-        $placeholders = [
-            'placeholders' => [],
-            'extraValues' => []
-        ];
+        $placeholders = [];
         foreach ($layout['cols'] as $name => $width) {
-            $placeholders['placeholders'][] = [
+            $placeholders[0][] = [
                 'var' => $name,
                 'cols' => $width
             ];
-            $placeholders['extraValues'][$name] = $width;
         }
 
         return $placeholders;
-    }
-
-    /**
-     * Return layout configs
-     *
-     * @return array
-     */
-    public function getCfgFields() {
-        $configs = [];
-        $layout = $this->getLayout();
-
-        foreach ($layout['cols'] as $name => $width) {
-            // Style
-            $configs[] = [
-                'var' => $name . 'style', 'label' => $this->translation('block.label.style', $name), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
-                    ['value' => '', 'label' => $this->t('block.value.none')],
-                    ['value' => 'default', 'label' => $this->t('block.value.default')],
-                    ['value' => 'muted', 'label' => $this->t('block.value.muted')],
-                    ['value' => 'primary', 'label' => $this->t('block.value.primary')],
-                    ['value' => 'secondary', 'label' => $this->t('block.value.secondary')]
-                ]
-            ];
-            // Image
-            $configs[] = [
-                'var' => $name . 'image',
-                'label' => $this->translation('block.label.image', $name),
-                'type' => self::TYPE_IMAGEUPLOAD,
-                'options' => ['no_filter' => false]
-            ];
-            // Image Width
-            $configs[] = $this->getConfig('width', ['var' => $name . 'image_width']);
-            // Image Height
-            $configs[] = $this->getConfig('height', ['var' => $name . 'image_height']);
-            // Image Size
-            $configs[] = $this->getConfig('image_size', ['var' => $name . 'image_size']);
-            // Image Position
-            $configs[] = $this->getConfig('image_position', ['var' => $name . 'image_position', 'initValue' => 'center-center']);
-            // Image Effect
-            $configs[] = $this->getConfig('image_effect', [
-                'var' => $name . 'image_effect',
-                'initValue' => '',
-                'options' => [
-                    ['value' => '', 'label' => $this->t('block.value.none')],
-                    ['value' => 'parallax', 'label' => $this->t('block.value.parallax')],
-                    ['value' => 'fixed', 'label' => $this->t('block.value.fixed')]
-                ]
-            ]);
-            // Parallax Settings
-            $configs[] = $this->getConfig('parallax_x_start', ['var' => $name . 'image_parallax_bgx_start']);
-            $configs[] = $this->getConfig('parallax_x_end', ['var' => $name . 'image_parallax_bgx_end']);
-            $configs[] = $this->getConfig('parallax_y_start', ['var' => $name . 'image_parallax_bgy_start']);
-            $configs[] = $this->getConfig('parallax_y_end', ['var' => $name . 'image_parallax_bgy_end']);
-            $configs[] = $this->getConfig('breakpoint', ['var' => $name . 'image_parallax_breakpoint']);
-            // Breakpoint
-            $configs[] = $this->getConfig('breakpoint', ['var' => $name . 'image_visibility']);
-            // Media Background
-            $configs[] = $this->getConfig('color', ['var' => $name . 'media_background', 'label' => 'block.label.background_color']);
-            // Media Blend Mode
-            $configs[] = $this->getConfig('blend_mode', ['var' => $name . 'media_blend_mode', 'label' => $this->translation('block.label.blend_mode', $name)]);
-            // Overlay Color
-            $configs[] = $this->getConfig('color', ['var' => $name . 'media_overlay', 'label' => $this->translation('block.label.overlay_color', $name)]);
-            // Preserve Color
-            $configs[] = [
-                'var' => $name . 'preserve_color',
-                'label' => $this->translation('block.label.preserve_color', $name),
-                'type' => self::TYPE_CHECKBOX
-            ];
-            // Text Color
-            $configs[] = [
-                'var' => $name . 'text_color',
-                'label' => $this->translation('block.label.text_color', $name),
-                'initValue' => '',
-                'type' => self::TYPE_SELECT,
-                'options' => [
-                    ['value' => '', 'label' => $this->t('block.value.default')],
-                    ['value' => 'light', 'label' => $this->t('block.value.light')],
-                    ['value' => 'dark', 'label' => $this->t('block.value.dark')]
-                ]
-            ];
-            // Padding
-            $configs[] = $this->getConfig('padding', ['var' => $name . 'padding', 'label' => $this->translation('block.label.padding', $name)]);
-            // Custom CSS
-            $configs[] = $this->getConfig('css', ['var' => $name . 'css', 'label' => $this->translation('block.label.css', $name)]);
-        }
-
-        return $configs;
-    }
-
-    /**
-     * Get configs with default values
-     *
-     * config_key => config_value or defualt_value
-     *
-     * @return array
-     */
-    public function configs() {
-        $blockConfigs = $this->config();
-        $vars = Uikit::element('vars', $blockConfigs, []);
-        $cfgs = Uikit::element('cfgs', $blockConfigs, []);
-
-        $configs = [];
-        if(count($vars)) {
-            foreach ($vars as $i => $var) {
-                $configs[$var['var']] = $this->getVarValue($var['var'], Uikit::element('initValue', $var, ''));
-            }
-        }
-        if(count($cfgs)) {
-            foreach ($cfgs as $i => $cfg) {
-                $configs[$cfg['var']] = $this->getVarValue($cfg['var'], Uikit::element('initValue', $cfg, ''));
-            }
-        }
-
-        $configs = Uikit::configs($configs);
-
-        return $configs;
     }
 
     /**
@@ -300,68 +174,25 @@ final class LayoutUikitBlock extends BaseUikitBlock
      */
     public function config()
     {
-        $placeholders = $this->getPlaceholders();
-        return [
-            'vars' => [
-                $this->getLayouts(),
-                ['var' => 'fixed_width', 'label' => $this->t('block.label.fixed_width'), 'initValue' => 'large', 'type' => self::TYPE_SELECT, 'options' => [
-                    ['value' => 'small', 'label' => $this->t('block.value.small')],
-                    ['value' => 'medium', 'label' => $this->t('block.value.medium')],
-                    ['value' => 'large', 'label' => $this->t('block.value.large')],
-                    ['value' => 'xlarge', 'label' => $this->t('block.value.x_large')],
-                    ['value' => 'xxlarge', 'label' => $this->t('block.value.xx_large')],
-                    ['value' => 'auto', 'label' => $this->t('block.value.auto')],
-                ]],
-                ['var' => 'gutter', 'label' => $this->t('block.label.gutter'), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
-                    ['value' => 'small', 'label' => $this->t('block.value.small')],
-                    ['value' => 'medium', 'label' => $this->t('block.value.medium')],
-                    ['value' => '', 'label' => $this->t('block.value.default')],
-                    ['value' => 'large', 'label' => $this->t('block.value.large')],
-                    ['value' => 'collapse', 'label' => $this->t('block.value.collapse')],
-                ]],
-                ['var' => 'divider', 'label' => $this->t('block.label.grid_display_dividers'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
-                ['var' => 'width', 'label' => $this->t('block.label.max_width'), 'initValue' => '', 'type' => self::TYPE_SELECT, 'options' => [
-                    ['value' => 'default', 'label' => $this->t('block.value.default')],
-                    ['value' => 'small', 'label' => $this->t('block.value.small')],
-                    ['value' => 'large', 'label' => $this->t('block.value.large')],
-                    ['value' => 'expand', 'label' => $this->t('block.value.expand')],
-                    ['value' => 'none', 'label' => $this->t('block.value.none')],
-                ]],
-                $this->getConfig('margin'),
-                $this->getConfig('margin_remove_top'),
-                $this->getConfig('margin_remove_bottom'),
-                ['var' => 'vertical_align', 'label' => $this->t('block.label.vertical_alignment'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
-                ['var' => 'match', 'label' => $this->t('block.label.match_height'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
-                $this->getConfig('breakpoint', ['initValue' => 'm']),
-                ['var' => 'order_last', 'label' => $this->t('block.label.order_last'), 'initValue' => '', 'type' => self::TYPE_CHECKBOX],
-                $this->getConfig('id'),
-                $this->getConfig('class')
-            ],
-            'cfgs' => $this->getCfgFields(),
-            'placeholders' => [
-                $placeholders['placeholders']
-            ],
-        ];
+        $configs = parent::config();
+        $column = $this->getComponentConfigs('column');
+        $columnConfigs = [];
+        if($column['vars']) {
+            $layout = $this->getLayout();
+            foreach ($layout['cols'] as $name => $width) {
+                foreach ($column['vars'] as $i => $field) {
+                    $field['var'] = $name . $field['var'];
+                    $field['label'] = Module::t($name) . $field['label'];
+                    $columnConfigs[] = $field;
+                }
+            }
+        }
+        $configs['cfgs'] = $columnConfigs;
+        return $configs;
     }
 
     /**
      * @inheritdoc
-     */
-    public function extraVars()
-    {
-        $layout = $this->getLayout();
-        foreach ($layout['cols'] as $name => $width) {
-            $this->extraValues[$name . 'image'] = BlockHelper::imageUpload($this->getCfgValue($name . 'image'), false, true);
-        }
-
-        $placeholders = $this->getPlaceholders();
-        $this->extraValues = array_merge($this->extraValues, $placeholders['extraValues']);
-        return parent::extraVars();
-    }
-
-    /**
-     * @param array $params
-     * @return mixed
      */
     public function frontend(array $params = array())
     {
@@ -369,8 +200,8 @@ final class LayoutUikitBlock extends BaseUikitBlock
 
         $i = 0;
         $nbItems = count($layout['cols']);
-        $configs = $this->configs();
-        $configs['columns'] = $nbItems;
+        $data = $this->getValues();
+        $data['columns'] = $nbItems;
         $items = [];
         foreach ($layout['cols'] as $name => $col) {
             $index = $i++;
@@ -378,33 +209,19 @@ final class LayoutUikitBlock extends BaseUikitBlock
             $items[$name]['name'] = $name;
             $items[$name]['hasNext'] = $index == $nbItems ? false : true;
             $items[$name]['widths'] = Uikit::element($index, $layout['widths'], ['expand']);
-            foreach ($configs as $var => $value) {
+            foreach ($data as $var => $value) {
                 if(strpos($var, $name) === FALSE) continue;
                 $rename = str_replace($name, '', $var);
                 $items[$name][$rename] = $value;
-                unset($configs[$var]);
+                unset($data[$var]);
             }
             $items[$name]['content'] = $this->getPlaceholderValue($name);
             $items[$name] = Uikit::configs($items[$name]);
         }
-        $configs = Uikit::configs($configs);
-        $params = [
-            'configs' => $configs,
-            'items' => $items
-        ];
+        $data = Uikit::configs($data);
+        $data['items'] = $items;
 
-        return parent::frontend($params);
-    }
-
-    /**
-     * Return translation with column name
-     *
-     * @param $message
-     * @param string $column
-     * @return string
-     */
-    public function translation($message, $column = "") {
-        return $this->t($message) . ' (' . $column . ')';
+        return parent::frontend(['data' => $data]);
     }
 
     /**
@@ -413,13 +230,5 @@ final class LayoutUikitBlock extends BaseUikitBlock
     public function admin()
     {
         return '';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function blockGroup()
-    {
-        return LayoutGroup::class;
     }
 }
