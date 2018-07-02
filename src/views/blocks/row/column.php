@@ -126,7 +126,7 @@ if ($data['style'] == 'primary' || $data['style'] == 'secondary') {
  *
  * @TODO add on if statement, if first child block is panel.
  */
-if ($parent['match'] && !$parent['vertical_align'] && count($parent['columns']) == 1) {
+if ($parent['match'] && !$parent['vertical_align'] && $parent['columns'] == 1) {
     if ($data['style'] || $data['image']) {
         $attrs_tile['class'][] = 'uk-grid-item-match';
     } else {
