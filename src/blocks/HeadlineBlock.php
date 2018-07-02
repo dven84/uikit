@@ -4,8 +4,6 @@ namespace trk\uikit\blocks;
 
 use trk\uikit\BaseUikitBlock;
 use trk\uikit\Module;
-use luya\TagParser;
-use luya\cms\helpers\BlockHelper;
 use luya\cms\frontend\blockgroups\TextGroup;
 
 /**
@@ -42,25 +40,6 @@ final class HeadlineBlock extends BaseUikitBlock
     public function icon()
     {
         return 'format_size';
-    }
-
-    /**
-     * Get the text based on type input.
-     */
-    public function getText()
-    {
-        $text = $this->getVarValue('content');
-        if ($this->getVarValue('textType', 0) == 1) {
-            return TagParser::convertWithMarkdown($text);
-        }
-        return nl2br($text);
-    }
-
-    public function extraVars()
-    {
-        $this->extraValues['text'] = $this->getText();
-        $this->extraValues['link'] = BlockHelper::linkObject($this->getVarValue('link'));
-        return parent::extraVars();
     }
 
     /**

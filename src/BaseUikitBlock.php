@@ -302,7 +302,7 @@ abstract class BaseUikitBlock extends PhpBlock
                 }
                 // Set field value
                 switch ($fieldType) {
-                    case 'zaa-file-upload':
+                    case 'zaa-image-upload':
                         $values[$fieldName] = $this->getImageSource($value);
                         break;
                     case 'zaa-link':
@@ -344,6 +344,8 @@ abstract class BaseUikitBlock extends PhpBlock
             'link_target' => $value && $value->getTarget() ? $value->getTarget() : ""
         ];
     }
+
+
 
     /**
      * @param array $params

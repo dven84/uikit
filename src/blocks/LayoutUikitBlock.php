@@ -5,7 +5,6 @@ namespace trk\uikit\blocks;
 use trk\uikit\BaseUikitBlock;
 use trk\uikit\Uikit;
 use trk\uikit\Module;
-use luya\cms\helpers\BlockHelper;
 use luya\cms\frontend\blockgroups\LayoutGroup;
 
 /**

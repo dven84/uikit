@@ -4,7 +4,6 @@ namespace trk\uikit\blocks;
 
 use trk\uikit\BaseUikitBlock;
 use trk\uikit\Module;
-use luya\TagParser;
 use luya\cms\frontend\blockgroups\MediaGroup;
 
 /**
