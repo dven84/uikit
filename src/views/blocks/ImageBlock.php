@@ -6,7 +6,6 @@ use trk\uikit\Uikit;
  * @var $this \luya\cms\base\PhpBlockView
  *
  */
-Uikit::trace($data);
 
 $id    = $data['id'];
 $class = $data['class'];
