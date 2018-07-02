@@ -12,9 +12,11 @@ UIKIT 3 Blocks:
 + Gallery
 + Grid
 + Headline
++ Icon
 + Image
 + List
 + Section
++ Slider
 + Slideshow
 + Row (With Columns)
 + Quotation

@@ -250,7 +250,6 @@ abstract class BaseUikitBlock extends PhpBlock
         $configs = $this->config();
         $vars = Uikit::element('vars', $configs, []);
         $cfgs = Uikit::element('cfgs', $configs, []);
-        $placeholders = $this->getPlaceholders();
 
         // Set var and cfgs values
         $configs = array_merge($this->setValues($vars), $this->setValues($cfgs, 'cfgs'));
@@ -258,8 +257,7 @@ abstract class BaseUikitBlock extends PhpBlock
         // Check and set placeholder values
         if($placeholders = $this->getPlaceholders()) {
             foreach ($placeholders as $placeholder) {
-                $name = Uikit::element('var', $placeholder, '');
-                if($name) {
+                if($name = Uikit::element('var', $placeholder)) {
                     $configs[$name] = $this->getPlaceholderValue($name);
                 }
             }

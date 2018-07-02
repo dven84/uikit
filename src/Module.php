@@ -14,18 +14,6 @@ use Yii;
  */
 class Module extends \luya\base\Module
 {
-    /**
-     * @var array $includes file list for configs
-     */
-    protected static $includes = ['general', 'title', 'meta', 'content', 'parallax'];
-
-    protected static $translations = [
-        'uikit' => 'uikit.php',
-        'uikit.label' => 'uikit.label.php',
-        'uikit.description' => 'uikit.description.php',
-        'uikit.placeholder' => 'uikit.placeholder.php',
-        'uikit.value' => 'uikit.value.php'
-    ];
 
     /**
      * @var array configs for store general field configs.
@@ -39,32 +27,20 @@ class Module extends \luya\base\Module
     {
         Yii::setAlias('@uikit', static::staticBasePath());
 
-        self::registerTranslation('uikit*', static::staticBasePath() . '/messages', self::$translations);
-
-        $path = __DIR__ . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR;
-        foreach (self::$includes as $include) {
-            $configsFile = $path . $include . '.php';
-            if(file_exists($configsFile)) {
-                self::$configs = array_merge(self::$configs, include $configsFile);
-            }
-        }
-
+        self::registerTranslation('uikit*', static::staticBasePath() . '/messages', [
+            'uikit' => 'uikit.php'
+        ]);
     }
 
     /**
-     * Return translations
+     * Translations
      *
-     * @param string $prefix
-     * @param string $term
+     * @param string $message
      * @param array $params
-     * @return mixed
+     * @return string
      */
-    public static function t($prefix = "", $term = "", array $params = [])
+    public static function t($message, array $params = [])
     {
-        $translationTerm = $term ? $term : $prefix;
-        if(!$term) {
-            $prefix = !$term ? 'uikit' : 'uikit.' . $prefix;
-        }
-        return parent::baseT($prefix, $translationTerm, $params);
+        return parent::baseT('uikit', $message, $params);
     }
 }
