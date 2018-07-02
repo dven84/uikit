@@ -3,8 +3,8 @@
 use trk\uikit\Uikit;
 
 /**
- * @var $this \luya\cms\base\PhpBlockView
- *
+ * @var $this object
+ * @var $data array
  */
 
 $id    = $data['id'];
@@ -26,9 +26,7 @@ if ($data['divider_style'] == 'small') {
         $class[] = "uk-text-{$data['divider_align']}";
     }
 }
-
 ?>
-
 <?php if ($data['divider_element'] == 'div') : ?>
     <div <?= Uikit::attrs(compact('id', 'class'), $attrs) ?>></div>
 <?php else : ?>

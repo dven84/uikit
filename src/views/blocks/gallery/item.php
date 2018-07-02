@@ -4,10 +4,9 @@ use trk\uikit\Uikit;
 
 /**
  * @var $this object
- * @data array
- * @item array
+ * @var $data array
+ * @var $item array
  */
-
 
 $attrs_item = [];
 $attrs_overlay = [];

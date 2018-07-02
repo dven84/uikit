@@ -4,7 +4,7 @@ use trk\uikit\Uikit;
 
 /**
  * @var $this object
- * @data array
+ * @var $data array
  */
 
 $id    = $data['id'];

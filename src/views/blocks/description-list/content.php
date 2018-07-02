@@ -3,9 +3,9 @@
 use trk\uikit\Uikit;
 
 /**
- * @var $this
- * @var $data
- * @var $item
+ * @var $this object
+ * @var $data array
+ * @var $item array
  */
 
 

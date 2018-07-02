@@ -3,8 +3,8 @@
 use trk\uikit\Uikit;
 
 /**
- * @var $this \luya\cms\base\PhpBlockView
- *
+ * @var $this object
+ * @var $data array
  */
 
 $id    = $data['id'];
@@ -29,15 +29,11 @@ if (!$data['fullwidth']) {
         $attrs_grid['class'][] = "uk-flex-{$data['text_align']}";
     }
 }
-
 ?>
-
 <div<?= Uikit::attrs(compact('id', 'class'), $attrs) ?>>
-
     <?php if (count($data["items"]) > 1) : ?>
     <div<?= Uikit::attrs($attrs_grid) ?>>
         <?php endif ?>
-
         <?php foreach ($data['items'] as $item) :
 
             $attrs_button = [];
@@ -168,5 +164,4 @@ if (!$data['fullwidth']) {
         <?php if (count($data['items']) > 1) : ?>
     </div>
 <?php endif ?>
-
 </div>

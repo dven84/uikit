@@ -4,8 +4,6 @@ namespace trk\uikit\blocks;
 
 use trk\uikit\BaseUikitBlock;
 use trk\uikit\Module;
-use luya\cms\base\PhpBlock;
-use luya\cms\helpers\BlockHelper;
 use luya\cms\frontend\blockgroups\MediaGroup;
 
 /**
@@ -42,17 +40,6 @@ final class ImageBlock extends BaseUikitBlock
     public function icon()
     {
         return 'image';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function extraVars()
-    {
-        return [
-            'image' => BlockHelper::imageUpload($this->getVarValue('image'), false, true),
-            'link' => BlockHelper::linkObject($this->getVarValue('link'))
-        ];
     }
 
     /**

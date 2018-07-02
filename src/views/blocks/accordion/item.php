@@ -3,8 +3,9 @@
 use trk\uikit\Uikit;
 
 /**
- * @var $this \luya\cms\base\PhpBlockView
- *
+ * @var $this object
+ * @var $data array
+ * @var $item array
  */
 
 $attrs_image = [];
